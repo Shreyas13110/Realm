@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Realm: slay your subscriptions</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+  <h1>Realm</h1>
+  <span id="mode" class="badge"></span>
+  <button id="reset" class="ghost">Reset demo</button>
+</header>
+<main>
+  <section id="hydra"><h2>Hydra heads <small>(subscriptions)</small></h2><ul id="subs"></ul></section>
+  <section id="oryn">
+    <h2>Oryn <small>(Claude agent)</small></h2>
+    <button id="audit">Audit my subscriptions</button>
+    <div id="stream" aria-live="polite"></div>
+    <h3>Awaiting your approval</h3>
+    <ul id="proposals"></ul>
+  </section>
+  <section id="mandates">
+    <h2>Mandates <small>(limits the server enforces)</small></h2>
+    <label>Per action $ <input id="m-per" type="number" min="0"></label>
+    <label>Daily $ <input id="m-day" type="number" min="0"></label>
+    <button id="m-save">Save</button>
+  </section>
+  <section id="recorder"><h2>Flight recorder</h2><ol id="timeline"></ol></section>
+  <section id="hooks"><h2>PayPal webhook feed</h2><ol id="webhooks"></ol></section>
+</main>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
