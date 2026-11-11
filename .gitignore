@@ -3,7 +3,6 @@ node_modules/
 .env.*
 !.env.example
 data/*.json
+*.zip
 *.log
 .DS_Store
-realm.zip
-realm-agent-pack.zip

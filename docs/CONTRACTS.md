@@ -14,3 +14,13 @@ Errors: `{error:{code,message}}`. Session via httpOnly cookie `sid`.
 
 Subscription: `{id, name, amountUsd, status: ACTIVE|CANCEL_REQUESTED|CANCELLED, simulated, paypalId?}`
 Proposal: `{id, action, subscriptionId, name, monthlySavingUsd, reason, status: pending|executed|rejected|blocked}`
+| POST | /api/orders/capture | `{orderId}` | `{status:'COMPLETED', orderId, captureId, amountUsd, simulated}` |
+| POST | /api/pools/:id/paylinks | `{payerName, amountUsd}` | `{token, payerName, amountUsd, url}` |
+| POST | /api/pools/:id/release | | proposal (executed) |
+| POST | /api/subs/:id/sync | | `{id, status, paypalStatus}` |
+| POST | /api/mandates/test | | 403 `MANDATE_BLOCKED` |
+| GET | /api/pay/:token | | `{poolName, payerName, amountUsd, status, simulated}` (public) |
+| POST | /api/pay/:token/order | | `{orderId, approveUrl, simulated}` (public) |
+| POST | /api/pay/:token/capture | `{orderId}` | `{status, captureId, amountUsd, simulated}` (public) |
+
+Proposal statuses: pending, executing, awaiting_payment, executed, rejected, blocked, failed. Actions: cancel_subscription, fund_quest, squad_payout.

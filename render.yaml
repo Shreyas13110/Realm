@@ -9,6 +9,14 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 22
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: PUBLIC_URL
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
       - key: PAYPAL_CLIENT_ID
         sync: false
       - key: PAYPAL_CLIENT_SECRET
@@ -17,7 +25,17 @@ services:
         sync: false
       - key: ANTHROPIC_API_KEY
         sync: false
-      - key: PUBLIC_URL
+      - key: ORYN_MODEL
+        value: claude-sonnet-5-5
+      - key: PAYOUT_RECIPIENT_EMAIL
         sync: false
-      - key: SESSION_SECRET
-        generateValue: true
+      - key: MAX_ORDER_USD
+        value: "50"
+      - key: DAILY_AI_CALLS_CAP
+        value: "300"
+      - key: DAILY_PAYOUT_CAP_USD
+        value: "25"
+      - key: PER_IP_CHAT_PER_MIN
+        value: "10"
+      - key: SEED_SUBSCRIPTIONS
+        sync: false

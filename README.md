@@ -8,22 +8,31 @@ Gamified money-wellness web app. **Oryn**, an AI agent powered by Claude, audits
 ```bash
 git clone <repo-url> && cd realm
 cp .env.example .env     # add keys; app runs without them in labelled mock/replay mode
-npm ci && npm test && npm start
+npm ci && npm test && npm start   # start loads .env automatically
 # open http://localhost:3000
 ```
-Requires Node 22+.
+Requires Node 22.9+.
+
+## Hero flow
+1. **Oryn audits** subscriptions; every tool call streams into the flight recorder.
+2. You **approve** the proposal; the server checks your **Mandate**, then cancels the PayPal subscription.
+3. A **signed webhook** confirms it; the Hydra head dies with the PayPal ID shown.
+4. Realm offers to route the saving to a quest; you approve and pay via a **PayPal order**.
+5. Friends pay the squad pool via **pay links**; releasing it sends a **PayPal Payout**.
 
 ## Real vs Simulated
 | Feature | Status |
 |---|---|
-| Oryn agent (Claude, server-side, tool use, SSE streaming) | Real when `ANTHROPIC_API_KEY` set; otherwise labelled REPLAY |
-| Mandate enforcement, proposals, audit log | Real (server-side) |
-| Subscription cancel | Real PayPal sandbox when `SEED_SUBSCRIPTIONS` holds real sandbox IDs and keys are set; otherwise labelled SIMULATED |
-| Webhook confirmation | Real signature verification via PayPal when `PAYPAL_WEBHOOK_ID` set |
-| Quest funding (orders), squad pay links, Payouts | **Not yet implemented** (see docs/STATUS.md) |
-| Balances/ledger | In-memory per session, demo data only |
+| Oryn agent (Claude, server-side, tool use, SSE streaming) | Real when `ANTHROPIC_API_KEY` is set; otherwise a labelled REPLAY of a scripted run |
+| Mandates, proposals, audit log, idempotent execution | Real (server-side, unit and HTTP tested) |
+| Subscription cancel | Real PayPal sandbox when `SEED_SUBSCRIPTIONS` holds approved sandbox IDs and keys are set; otherwise labelled SIMULATED |
+| Cancel confirmation | Real when a signed webhook passes PayPal's verify endpoint (`PAYPAL_WEBHOOK_ID`). A "Check with PayPal" button falls back to a direct API lookup and is labelled as such |
+| Quest funding | Real PayPal Orders v2 (create, approve, capture) with keys; credits the amount PayPal captured. Simulated checkout without keys |
+| Squad pay links | Real PayPal Orders per link with keys; simulated without |
+| Squad payout | Real PayPal Payouts with keys plus `PAYOUT_RECIPIENT_EMAIL` (needs a US Business sandbox account); simulated without |
+| Balances/ledger | In-memory per session, demo data. Sessions are lost on restart |
 
-All money is sandbox money. No real funds move.
+All money is sandbox money. No real funds move. PayPal calls are written from the official docs and are verified only once you run them against your sandbox: see `docs/STATUS.md`.
 
 ## AI tools used
 Claude (Anthropic) powers Oryn at runtime and was used to help write this code. Model set by `ORYN_MODEL`.

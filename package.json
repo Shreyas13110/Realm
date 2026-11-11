@@ -4,12 +4,15 @@
   "description": "Realm: gamified money-wellness app with Oryn (Claude) and PayPal sandbox payments",
   "type": "module",
   "license": "MIT",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22.9"
+  },
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --env-file-if-exists=.env --watch src/server.js",
     "test": "node --test \"test/*.test.js\"",
-    "check": "node scripts/check-syntax.js"
+    "check": "node scripts/check-syntax.js",
+    "seed": "node --env-file=.env scripts/seed-paypal.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.40.0",

@@ -14,3 +14,4 @@ export function errorHandler(err, _req, res, _next) {
   res.status(status).json({ error: { code: err.code || 'INTERNAL', message: status >= 500 && !err.code ? 'Internal error' : err.message } });
 }
 export const wrap = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
+export const ah = wrap;

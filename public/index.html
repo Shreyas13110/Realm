@@ -1,35 +1,1139 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Realm: slay your subscriptions</title>
-<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Realm — Real Money. Game Brain.</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:   #F7F4EE;
+  --paper:   #FFFFFF;
+  --ink:     #1A1825;
+  --ink2:    #6B6880;
+  --ink3:    #AEACC0;
+  --violet:  #5C4EE5;
+  --violet-bg: #EAE7FF;
+  --gold:    #F5A623;
+  --gold-bg: #FFF3DC;
+  --green:   #17B978;
+  --green-bg:#D6F5E9;
+  --coral:   #F05454;
+  --coral-bg:#FFE8E8;
+  --stroke:  2px solid var(--ink);
+  --r:       14px;
+  --sans:    'Plus Jakarta Sans', sans-serif;
+  --hand:    'Caveat', cursive;
+  color-scheme: light;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);display:flex;flex-direction:column}
+
+/* NAV */
+nav{background:var(--paper);border-bottom:var(--stroke);padding:0.7rem 1.1rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50}
+.logo{font-family:var(--hand);font-size:2rem;font-weight:700;color:var(--violet);letter-spacing:0.01em;line-height:1}
+.nav-r{display:flex;align-items:center;gap:0.5rem}
+.nav-chip{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;border:var(--stroke)}
+.nc-gold{background:var(--gold-bg);color:#8A5C00}
+.nc-v{background:var(--violet-bg);color:var(--violet)}
+
+/* TABS */
+.tabs{background:var(--paper);border-bottom:var(--stroke);display:flex;overflow-x:auto;scrollbar-width:none;flex-shrink:0;padding:0 0.5rem}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:0.65rem 1rem;font-size:12px;font-weight:700;color:var(--ink3);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all 0.15s;letter-spacing:0.01em}
+.tab.on{color:var(--violet);border-bottom-color:var(--violet)}
+.tab:hover:not(.on){color:var(--ink2)}
+
+/* SCREENS */
+.screens{flex:1;overflow:hidden;background-color:var(--cream);background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27300%27%20height%3D%27300%27%20viewBox%3D%270%200%20300%20300%27%3E%3Cg%20opacity%3D%270.5%27%3E%3Cg%20transform%3D%27translate%2820%2024%29%20rotate%28-8%2020%2020%29%20scale%281.1%29%27%3E%3Ccircle%20cx%3D%2720%27%20cy%3D%2720%27%20r%3D%2716%27%20fill%3D%27%23FFB3D6%27%2F%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M11%2018%20q3%203%206%200%20M23%2018%20q3%203%206%200%27%2F%3E%3Cpath%20d%3D%27M14%2024%20q6%206%2012%200%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28190%2014%29%20rotate%2810%2020%2020%29%20scale%281.0%29%27%3E%3Cg%20fill%3D%27%23FFB3D6%27%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%2713%27%20r%3D%279%27%2F%3E%3Ccircle%20cx%3D%2727%27%20cy%3D%2713%27%20r%3D%279%27%2F%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%2727%27%20r%3D%279%27%2F%3E%3Ccircle%20cx%3D%2727%27%20cy%3D%2727%27%20r%3D%279%27%2F%3E%3Crect%20x%3D%2711%27%20y%3D%2711%27%20width%3D%2718%27%20height%3D%2718%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M12%2019%20q3%203%206%200%20M22%2019%20q3%203%206%200%27%2F%3E%3Cpath%20d%3D%27M15%2025%20q5%205%2010%200%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28110%2096%29%20rotate%286%2020%2020%29%20scale%281.0%29%27%3E%3Cpath%20d%3D%27M5%2036%20V19%20a15%2015%200%200%201%2030%200%20V36%20Z%27%20fill%3D%27%239FDBFF%27%20stroke%3D%27%239FDBFF%27%20stroke-width%3D%272%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M12%2021%20q3%203%206%200%20M22%2021%20q3%203%206%200%27%2F%3E%3Cpath%20d%3D%27M16%2028%20q4%203%208%200%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28235%20110%29%20rotate%28-10%2020%2020%29%20scale%280.95%29%27%3E%3Cpath%20d%3D%27M20%203%20L35%2011.5%20V28.5%20L20%2037%20L5%2028.5%20V11.5%20Z%27%20fill%3D%27%23B9A8F0%27%20stroke%3D%27%23B9A8F0%27%20stroke-width%3D%273%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M12%2018%20q3%203%206%200%20M22%2018%20q3%203%206%200%27%2F%3E%3Cpath%20d%3D%27M15%2026%20h10%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2824%20150%29%20rotate%288%2020%2020%29%20scale%281.0%29%27%3E%3Cpath%20d%3D%27M20%204%20L37%2034%20H3%20Z%27%20fill%3D%27%23BDEBD6%27%20stroke%3D%27%23BDEBD6%27%20stroke-width%3D%274%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M12%2024%20l6%202.5%20M28%2024%20l-6%202.5%27%2F%3E%3Cpath%20d%3D%27M16%2031%20q4%20-3%208%200%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28165%20190%29%20rotate%28-6%2020%2020%29%20scale%280.95%29%27%3E%3Crect%20x%3D%274%27%20y%3D%274%27%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%279%27%20fill%3D%27%23FFC9A8%27%2F%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M11%2017%20h7%20M22%2017%20h7%27%2F%3E%3Cpath%20d%3D%27M15%2026%20h10%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2870%20232%29%20rotate%2810%2020%2020%29%20scale%280.9%29%27%3E%3Ccircle%20cx%3D%2720%27%20cy%3D%2720%27%20r%3D%2716%27%20fill%3D%27%23FFE0A3%27%2F%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M11%2018%20q3%203%206%200%20M23%2018%20q3%203%206%200%27%2F%3E%3Cpath%20d%3D%27M14%2024%20q6%206%2012%200%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28240%20236%29%20rotate%28-8%2020%2020%29%20scale%280.85%29%27%3E%3Cpath%20d%3D%27M5%2036%20V19%20a15%2015%200%200%201%2030%200%20V36%20Z%27%20fill%3D%27%23C9B8F0%27%20stroke%3D%27%23C9B8F0%27%20stroke-width%3D%272%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%231A1825%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%3E%3Cpath%20d%3D%27M12%2021%20q3%203%206%200%20M22%2021%20q3%203%206%200%27%2F%3E%3Cpath%20d%3D%27M16%2028%20q4%203%208%200%27%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E");background-size:300px 300px}
+.screen{display:none;height:100%;overflow-y:auto;padding:1rem 1rem 3rem;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.on{display:block}
+
+/* CARD */
+.card{background:var(--paper);border:var(--stroke);border-radius:var(--r);padding:1rem;margin-bottom:0.7rem}
+
+/* HERO */
+.hero{background:var(--violet);border:3px solid var(--ink);border-radius:var(--r);padding:1.2rem;margin-bottom:0.7rem;position:relative;overflow:hidden}
+.hero-label{font-family:var(--hand);font-size:24px;color:rgba(255,255,255,0.7);margin-bottom:4px}
+.hero-amt{font-size:2.6rem;font-weight:800;color:var(--paper);line-height:1;margin-bottom:4px}
+.hero-sub{font-size:11px;color:rgba(255,255,255,0.6);font-weight:500}
+.pp-sync{display:inline-flex;align-items:center;gap:5px;margin-top:0.75rem;padding:4px 10px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:20px;font-size:10px;font-weight:700;color:rgba(255,255,255,0.9)}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:#7FFFB0;animation:blink 2s infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* 2-COL */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-bottom:0.7rem}
+
+/* CHAR CARD */
+.char-card{background:var(--gold-bg);border:var(--stroke);border-radius:var(--r);padding:1rem;position:relative;overflow:hidden}
+.char-icon-wrap{width:44px;height:44px;border-radius:10px;background:var(--gold);border:var(--stroke);display:flex;align-items:center;justify-content:center;margin-bottom:0.5rem}
+.char-name{font-size:16px;font-weight:800;color:var(--ink);line-height:1}
+.char-cls{font-family:var(--hand);font-size:22px;color:#9A6400;margin-top:1px}
+.stat-mini{margin-top:0.65rem;display:flex;flex-direction:column;gap:5px}
+.sm-row{display:flex;align-items:center;gap:6px}
+.sm-label{font-size:9px;font-weight:700;color:var(--ink2);width:40px;flex-shrink:0;letter-spacing:0.04em}
+.sm-track{flex:1;height:5px;background:rgba(0,0,0,0.08);border-radius:3px;overflow:hidden;border:1px solid rgba(0,0,0,0.1)}
+.sm-fill{height:100%}
+.sf-d{background:var(--green);width:72%}
+.sf-f{background:var(--violet);width:58%}
+.sf-i{background:var(--coral);width:35%}
+
+/* XP CARD */
+.xp-card{background:var(--violet-bg);border:var(--stroke);border-radius:var(--r);padding:1rem;position:relative;overflow:hidden}
+.xp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.xp-title{font-size:13px;font-weight:800;color:var(--violet)}
+.xp-pct{font-family:var(--hand);font-size:30px;font-weight:700;color:var(--violet)}
+.xp-track{height:8px;background:rgba(92,78,229,0.15);border-radius:4px;overflow:hidden;border:1.5px solid rgba(92,78,229,0.2);margin-bottom:5px}
+.xp-fill{height:100%;background:var(--violet);width:68%}
+.xp-sub{font-size:9px;font-weight:600;color:var(--violet);opacity:0.6}
+.xp-tags{display:flex;gap:4px;margin-top:0.6rem;flex-wrap:wrap}
+.xtag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(92,78,229,0.12);color:var(--violet);border:1px solid rgba(92,78,229,0.2)}
+
+/* DEBUFF */
+.debuff{background:var(--coral-bg);border:2px solid var(--coral);border-radius:var(--r);padding:1rem;margin-bottom:0.7rem;position:relative;overflow:hidden}
+.debuff-label{font-family:var(--hand);font-size:24px;font-weight:700;color:var(--coral);margin-bottom:4px}
+.debuff-txt{font-size:12px;font-weight:600;color:#8B2020;line-height:1.5}
+
+/* SECTION LABEL */
+.sec{font-family:var(--hand);font-size:32px;font-weight:700;color:var(--ink);margin:0.25rem 0 0.6rem;display:inline-block;position:relative;line-height:1.1}
+.sec::before{content:'';position:absolute;right:-30px;top:-2px;width:22px;height:22px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F5A623' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2 L14 9 L21 9 L15.5 13.5 L17.5 21 L12 16.5 L6.5 21 L8.5 13.5 L3 9 L10 9 Z'/%3E%3C/svg%3E") no-repeat center/contain;transform:rotate(12deg)}
+.sec::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:3px;background:var(--ink);border-radius:2px}
+
+/* QUEST CARDS */
+.qcard{background:var(--paper);border:var(--stroke);border-radius:var(--r);padding:1rem;margin-bottom:0.65rem;transition:transform 0.1s;position:relative;overflow:hidden}
+.qcard:active{transform:scale(0.99)}
+.qcard.active{background:var(--violet-bg);border-color:var(--violet)}
+.q-eyebrow{font-size:9px;font-weight:800;letter-spacing:0.08em;margin-bottom:4px}
+.qe-gold{color:var(--gold)}.qe-green{color:var(--green)}.qe-v{color:var(--violet)}.qe-ink{color:var(--ink3)}
+.q-name{font-size:15px;font-weight:800;line-height:1.2;margin-bottom:3px;color:var(--ink)}
+.q-sub{font-size:10px;font-weight:600;color:var(--ink2);margin-bottom:0.75rem}
+.q-prog-row{display:flex;align-items:center;gap:8px}
+.q-track{flex:1;height:8px;background:rgba(0,0,0,0.06);border-radius:4px;overflow:hidden;border:1.5px solid rgba(0,0,0,0.1)}
+.q-fill{height:100%}
+.qf-gold{background:var(--gold)}.qf-green{background:var(--green)}.qf-v{background:var(--violet)}
+.q-pct{font-family:var(--hand);font-size:23px;font-weight:700;color:var(--ink2);min-width:46px;text-align:right}
+.rpill{display:inline-flex;padding:3px 8px;border-radius:8px;font-size:9px;font-weight:800;margin-top:0.6rem;border:1.5px solid}
+.rp-gold{background:var(--gold-bg);color:#8A5C00;border-color:var(--gold)}
+.rp-green{background:var(--green-bg);color:#0A6644;border-color:var(--green)}
+.rp-v{background:var(--violet-bg);color:var(--violet);border-color:var(--violet)}
+
+/* TRANSACTIONS */
+.tx-card{position:relative;background:var(--paper);border:var(--stroke);border-radius:var(--r);overflow:hidden}
+.tx{position:relative;display:flex;align-items:center;gap:0.75rem;padding:0.65rem 1rem;border-bottom:var(--stroke)}
+.tx:last-child{border:none}
+.tx-ico{width:40px;height:40px;border-radius:10px;border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tx-inf{flex:1}
+.tx-n{font-size:12px;font-weight:700}
+.tx-t{font-size:10px;color:var(--ink3);font-weight:500;margin-top:1px}
+.tx-a{font-size:13px;font-weight:800}
+.neg{color:var(--coral)}.pos{color:var(--green)}
+
+/* ALERT */
+.alert-card{background:var(--paper);border:2px solid var(--coral);border-radius:var(--r);padding:1.1rem;margin-bottom:0.75rem;position:relative;overflow:hidden}
+.alert-hed{font-family:var(--hand);font-size:28px;font-weight:700;color:var(--coral);margin-bottom:5px}
+.alert-bod{font-size:12px;font-weight:600;color:#8B2020;line-height:1.6}
+.alert-bod strong{color:var(--coral)}
+.alert-btns{display:flex;gap:0.5rem;margin-top:0.75rem}
+.abtn{flex:1;padding:0.65rem;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:var(--sans);transition:opacity 0.15s;border:var(--stroke)}
+.abtn:hover{opacity:0.85}
+.abtn-no{background:var(--coral);color:white;border-color:var(--coral)}
+.abtn-yes{background:transparent;color:var(--ink2);border-color:rgba(0,0,0,0.12)}
+
+/* GUILD */
+.guild-hero{background:var(--green);border:3px solid var(--ink);border-radius:var(--r);padding:1.2rem;margin-bottom:0.7rem;position:relative;overflow:hidden}
+.guild-title{font-size:1.7rem;font-weight:800;color:white;margin-bottom:2px}
+.guild-meta{font-family:var(--hand);font-size:21px;color:rgba(255,255,255,0.75);margin-bottom:1rem}
+.guild-members{display:flex;margin-bottom:1rem}
+.mav{width:32px;height:32px;border-radius:50%;border:2px solid white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;margin-left:-7px;color:white}
+.mav:first-child{margin-left:0}
+.guild-goal-label{font-family:var(--hand);font-size:20px;color:rgba(255,255,255,0.7);margin-bottom:3px}
+.guild-goal-name{font-size:17px;font-weight:800;color:white;margin-bottom:0.75rem}
+.guild-amt-row{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:rgba(255,255,255,0.75);margin-bottom:5px}
+.guild-amt-row span{color:white}
+.g-track{height:9px;background:rgba(255,255,255,0.2);border-radius:5px;border:1.5px solid rgba(255,255,255,0.3);overflow:hidden}
+.g-fill{height:100%;background:white;width:44%}
+
+.contribs{position:relative;background:var(--paper);border:var(--stroke);border-radius:var(--r);overflow:hidden;margin-bottom:0.7rem}
+.ctr{position:relative;display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1rem;border-bottom:var(--stroke)}
+.ctr:last-child{border:none}
+.ctr-name{font-size:12px;font-weight:700}
+.ctr-amt{font-size:12px;font-weight:800;color:var(--green)}
+
+.sandbox-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--gold-bg);border:var(--stroke);border-radius:8px;font-size:9px;font-weight:700;color:#8A5C00;margin-bottom:0.6rem}
+.paypal-btn{width:100%;background:var(--ink);color:white;border:3px solid var(--ink);border-radius:var(--r);padding:1rem;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);transition:opacity 0.15s}
+.paypal-btn:hover{opacity:0.85}
+.pp-confirm{display:none;margin-top:0.65rem;background:var(--green-bg);border:var(--stroke);border-radius:10px;padding:0.75rem 1rem;font-size:11px;font-weight:700;color:#0A6644}
+
+/* COMPANION */
+.companion-layout{display:flex;flex-direction:column;height:calc(100vh - 155px)}
+.comp-head{position:relative;display:flex;align-items:center;gap:0.75rem;padding-bottom:0.75rem;border-bottom:var(--stroke);flex-shrink:0}
+.oryn-av{width:44px;height:44px;border-radius:50%;background:var(--violet-bg);border:var(--stroke);display:flex;align-items:center;justify-content:center;font-family:var(--hand);font-size:1.3rem;font-weight:700;flex-shrink:0;color:var(--violet)}
+.oryn-name{font-size:15px;font-weight:800;color:var(--ink)}
+.oryn-role{font-family:var(--hand);font-size:20px;color:var(--violet);margin-top:1px}
+.online-pill{margin-left:auto;display:flex;align-items:center;gap:5px;padding:4px 10px;background:var(--green-bg);border:1.5px solid var(--green);border-radius:20px;font-size:10px;font-weight:700;color:#0A6644}
+
+.quick-pills{display:flex;gap:5px;flex-wrap:wrap;padding:0.65rem 0;flex-shrink:0}
+.qp{font-size:11px;padding:5px 11px;background:var(--paper);border:var(--stroke);border-radius:20px;color:var(--ink2);cursor:pointer;font-family:var(--sans);font-weight:700;transition:all 0.12s;white-space:nowrap}
+.qp:hover{background:var(--violet-bg);border-color:var(--violet);color:var(--violet)}
+
+.chat-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:0.6rem;scrollbar-width:none;padding-right:2px}
+.chat-msgs::-webkit-scrollbar{display:none}
+.msg{display:flex;gap:0.5rem;align-items:flex-end}
+.msg.u{flex-direction:row-reverse}
+.mav2{width:28px;height:28px;border-radius:50%;border:var(--stroke);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;font-family:var(--hand)}
+.mav-oryn{background:var(--violet-bg);color:var(--violet)}
+.mav-user{background:var(--gold-bg);color:#8A5C00}
+.bubble{max-width:80%;padding:0.65rem 0.9rem;border-radius:14px;font-size:12.5px;line-height:1.6;font-weight:600;border:var(--stroke)}
+.msg:not(.u) .bubble{background:var(--paper);border-bottom-left-radius:4px}
+.msg.u .bubble{background:var(--violet);color:white;border-color:var(--violet);border-bottom-right-radius:4px}
+.mtime{font-size:9px;color:var(--ink3);font-weight:500;margin-top:3px}
+.msg:not(.u) .mtime{padding-left:4px}
+.msg.u .mtime{text-align:right;padding-right:4px}
+.typing{display:flex;gap:4px;align-items:center;padding:0.65rem 0.9rem;background:var(--paper);border:var(--stroke);border-radius:14px;border-bottom-left-radius:4px;width:fit-content}
+.td{width:6px;height:6px;border-radius:50%;background:var(--ink3);animation:td 1.1s infinite}
+.td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}
+@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.chat-row{display:flex;gap:0.5rem;padding-top:0.65rem;border-top:var(--stroke);flex-shrink:0;margin-top:auto}
+.cinput{flex:1;background:var(--paper);border:var(--stroke);border-radius:12px;padding:0.7rem 1rem;color:var(--ink);font-family:var(--sans);font-size:13px;font-weight:600;outline:none;transition:border-color 0.15s}
+.cinput:focus{border-color:var(--violet)}
+.cinput::placeholder{color:var(--ink3);font-weight:400}
+.sbtn{background:var(--violet);border:var(--stroke);border-color:var(--violet);border-radius:12px;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity 0.12s;flex-shrink:0}
+.sbtn:hover{opacity:0.85}
+.sbtn svg{width:16px;height:16px;fill:white}
+
+
+/* COUNTDOWN / CALENDAR */
+.cd-hero{background:var(--gold);border:3px solid var(--ink);border-radius:var(--r);padding:1.2rem;margin-bottom:0.7rem;position:relative;overflow:hidden}
+.cd-hero .hero-label{color:rgba(26,24,37,0.7)}
+.cd-big{display:flex;align-items:baseline;gap:8px;margin-bottom:0.7rem}
+.cd-num{font-size:3.4rem;font-weight:800;line-height:1;color:var(--ink)}
+.cd-unit{font-size:13px;font-weight:700;color:rgba(26,24,37,0.75);line-height:1.3}
+.cd-clock{display:flex;gap:8px;margin-bottom:0.8rem}
+.cd-box{background:var(--paper);border:var(--stroke);border-radius:10px;padding:6px 0;min-width:58px;text-align:center}
+.cd-box b{display:block;font-size:20px;font-weight:800;line-height:1.1}
+.cd-box span{font-size:9px;font-weight:800;letter-spacing:0.08em;color:var(--ink2)}
+.cd-track{height:10px;background:rgba(26,24,37,0.12);border:1.5px solid var(--ink);border-radius:6px;overflow:hidden}
+.cd-fill{height:100%;background:var(--ink);width:0}
+.cd-sub{font-size:11px;font-weight:700;color:rgba(26,24,37,0.75);margin-top:6px}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem}
+.cal-title{font-size:15px;font-weight:800}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-dow{font-size:9px;font-weight:800;color:var(--ink3);text-align:center;padding-bottom:2px}
+.cal-d{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;position:relative;border:1.5px solid transparent;transition:background 0.12s}
+.cal-d:hover{background:var(--violet-bg)}
+.cal-d.past{color:var(--ink3);text-decoration:line-through;text-decoration-color:rgba(0,0,0,0.15)}
+.cal-d.today{background:var(--violet);color:white;border-color:var(--ink)}
+.cal-d.sel{border-color:var(--ink)}
+.cal-dots{display:flex;gap:2px;position:absolute;bottom:3px}
+.cal-dot{width:5px;height:5px;border-radius:50%}
+.dt-v{background:var(--violet)}.dt-g{background:var(--green)}.dt-y{background:var(--gold)}.dt-c{background:var(--coral)}
+.cal-d.today .dt-v{background:white}
+.cal-detail{margin-top:0.7rem;padding:0.6rem 0.8rem;background:var(--cream);border:1.5px dashed var(--ink3);border-radius:10px;font-size:12px;font-weight:600;color:var(--ink2);line-height:1.5}
+.cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:0.6rem;font-size:10px;font-weight:700;color:var(--ink2)}
+.cal-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}
+.ration{display:flex;align-items:center;gap:0.9rem}
+.ration-amt{font-size:2rem;font-weight:800;line-height:1}
+.ration-sub{font-size:11px;font-weight:600;color:var(--ink2);line-height:1.5;margin-top:3px}
+.up-row{display:flex;align-items:center;gap:0.75rem;padding:0.65rem 1rem;border-bottom:var(--stroke)}
+.up-row:last-child{border:none}
+.up-when{font-family:var(--hand);font-size:20px;font-weight:700;min-width:64px;color:var(--violet)}
+.up-what{font-size:12px;font-weight:700;flex:1}
+
+/* PROFILE */
+.pf-hero{background:var(--violet-bg);border:3px solid var(--ink);border-radius:var(--r);padding:1.2rem;margin-bottom:0.7rem;display:flex;align-items:center;gap:1rem;position:relative;overflow:hidden}
+.pf-av{width:76px;height:76px;border-radius:50%;background:var(--paper);border:var(--stroke);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pf-name{font-size:1.5rem;font-weight:800;line-height:1.1}
+.pf-cls{font-family:var(--hand);font-size:22px;color:var(--violet);line-height:1.1}
+.pf-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.sec-row{display:flex;align-items:center;justify-content:space-between;margin-top:0.9rem}
+.pf-edit{font-family:var(--sans);font-size:11px;font-weight:800;padding:6px 14px;border:var(--stroke);border-radius:20px;background:var(--paper);cursor:pointer}
+.pf-edit.on{background:var(--green);color:white;border-color:var(--ink)}
+.pf-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.55rem 1rem;border-bottom:var(--stroke)}
+.pf-row:last-child{border:none}
+.pf-l{font-size:11px;font-weight:700;color:var(--ink2);flex-shrink:0}
+.pf-in{flex:1;min-width:0;text-align:right;font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink);background:transparent;border:1.5px solid transparent;border-radius:8px;padding:5px 8px;outline:none}
+input.pf-in:not(:disabled){background:var(--cream);border-color:var(--ink3)}
+input.pf-in:not(:disabled):focus{border-color:var(--violet)}
+.pf-saved{display:none;margin-top:0.6rem;background:var(--green-bg);border:var(--stroke);border-radius:10px;padding:0.55rem 1rem;font-size:11px;font-weight:700;color:#0A6644}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-bottom:0.3rem}
+.fact{background:var(--paper);border:var(--stroke);border-radius:var(--r);padding:0.8rem 0.5rem;text-align:center}
+.fact b{display:block;font-size:1.5rem;font-weight:800;line-height:1}
+.fact span{font-size:10px;font-weight:700;color:var(--ink2)}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem}
+.badge{background:var(--paper);border:var(--stroke);border-radius:var(--r);padding:0.8rem 0.4rem;text-align:center}
+.badge.lock{border-style:dashed}
+.badge.lock svg{filter:grayscale(1);opacity:0.35}
+.badge-n{font-size:11px;font-weight:800;margin-top:5px;line-height:1.2}
+.badge-s{font-size:9px;font-weight:600;color:var(--ink2);margin-top:2px}
+
+
+/* PAYPAL / MODALS / FUN */
+.modal{position:fixed;inset:0;background:rgba(26,24,37,.55);display:none;align-items:flex-end;justify-content:center;z-index:100}
+.modal.on{display:flex}.modal.mid{align-items:center}
+.sheet{background:var(--paper);border:3px solid var(--ink);border-radius:20px 20px 0 0;padding:1.2rem;width:100%;max-width:460px;max-height:92vh;overflow-y:auto}
+.mid .sheet{border-radius:20px;margin:1rem;text-align:center}
+.pp-logo{font-weight:800;font-size:1.35rem;font-style:italic;color:#003087}.pp-logo b{color:#009cde}
+.pp-row{display:flex;justify-content:space-between;font-size:12px;font-weight:700;padding:7px 0;border-bottom:1.5px dashed var(--ink3)}
+.fin{width:100%;padding:.7rem .9rem;border:var(--stroke);border-radius:12px;font-family:var(--sans);font-size:14px;font-weight:700;outline:none;background:var(--paper);margin:4px 0 8px}
+.fin:focus{border-color:var(--violet)}
+.pbtn{width:100%;padding:.9rem;border-radius:12px;border:var(--stroke);background:#FFC439;font-weight:800;font-size:14px;cursor:pointer;font-family:var(--sans);margin-top:.6rem}
+.pbtn:disabled{opacity:.6}
+.sbtn2{font-family:var(--sans);font-size:11px;font-weight:800;padding:6px 12px;border:var(--stroke);border-radius:20px;background:var(--paper);cursor:pointer}
+.sbtn2.pp{background:#FFC439}.sbtn2.v{background:var(--violet);color:#fff;border-color:var(--ink)}.sbtn2.g{background:var(--green-bg)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.chip{font-size:11px;font-weight:800;padding:5px 11px;border:var(--stroke);border-radius:20px;background:var(--paper);cursor:pointer}
+.chip.on{background:var(--violet);color:#fff}
+.hub{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.6rem}
+.hub .sbtn2{padding:9px 4px;border-radius:12px;text-align:center}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:9px 16px;border-radius:20px;font-size:12px;font-weight:700;z-index:200;transition:transform .3s;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.cf{position:fixed;top:-20px;width:9px;height:14px;z-index:150;animation:fall 2.8s linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.lv-num{font-family:var(--hand);font-size:3.2rem;font-weight:700;color:var(--violet);line-height:1}
+.wheel-wrap{position:relative;width:240px;height:240px;margin:0 auto .6rem}
+.wheel-wrap svg.w{width:100%;height:100%;transition:transform 4s cubic-bezier(.12,.7,.1,1)}
+.ptr{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:20px solid var(--ink);z-index:2}
+.bar{height:10px;background:rgba(0,0,0,.07);border:1.5px solid rgba(0,0,0,.15);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%}
+.sub-row{display:flex;align-items:center;gap:.6rem;padding:.55rem 0;border-bottom:1.5px dashed var(--ink3);font-size:12px;font-weight:700}
+.sub-row:last-child{border:none}.sub-row span:first-child{flex:1}
+.wr-item{border:var(--stroke);border-radius:12px;padding:.8rem;margin-bottom:.6rem;background:var(--paper)}
+.oryn-q{background:var(--violet-bg);border:1.5px solid var(--violet);border-radius:10px;padding:.5rem .7rem;font-size:12px;font-weight:600;margin:.5rem 0}
+.moods{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.mood{border:var(--stroke);border-radius:12px;padding:.5rem 0;text-align:center;font-size:10px;font-weight:800;cursor:pointer;background:var(--paper)}
+.mood:hover{background:var(--violet-bg)}
+.mrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;margin:6px 0}.mrow .bar{flex:1}.mrow span:first-child{width:56px}
+
+/* DOODLE SVGs — absolutely positioned inside cards */
+.doodle{position:absolute;pointer-events:none;opacity:0.13}
+</style>
 </head>
 <body>
-<header>
-  <h1>Realm</h1>
-  <span id="mode" class="badge"></span>
-  <button id="reset" class="ghost">Reset demo</button>
-</header>
-<main>
-  <section id="hydra"><h2>Hydra heads <small>(subscriptions)</small></h2><ul id="subs"></ul></section>
-  <section id="oryn">
-    <h2>Oryn <small>(Claude agent)</small></h2>
-    <button id="audit">Audit my subscriptions</button>
-    <div id="stream" aria-live="polite"></div>
-    <h3>Awaiting your approval</h3>
-    <ul id="proposals"></ul>
-  </section>
-  <section id="mandates">
-    <h2>Mandates <small>(limits the server enforces)</small></h2>
-    <label>Per action $ <input id="m-per" type="number" min="0"></label>
-    <label>Daily $ <input id="m-day" type="number" min="0"></label>
-    <button id="m-save">Save</button>
-  </section>
-  <section id="recorder"><h2>Flight recorder</h2><ol id="timeline"></ol></section>
-  <section id="hooks"><h2>PayPal webhook feed</h2><ol id="webhooks"></ol></section>
-</main>
-<script type="module" src="/js/app.js"></script>
+
+<nav>
+  <div class="logo">Realm</div>
+  <div class="nav-r">
+    <div class="nav-chip nc-gold"><span id="nav-gold">2,340</span> gold</div>
+    <div class="nav-chip nc-v">Lvl 7</div>
+  </div>
+</nav>
+
+<div class="tabs">
+  <div class="tab on" onclick="sw('dashboard',this)">Dashboard</div>
+  <div class="tab" onclick="sw('quests',this)">Quests</div>
+  <div class="tab" onclick="sw('arena',this)">Arena</div>
+  <div class="tab" onclick="sw('lab',this)">Impulse Lab</div>
+  <div class="tab" onclick="sw('calendar',this)">Calendar</div>
+  <div class="tab" onclick="sw('guild',this)">Guild</div>
+  <div class="tab" onclick="sw('companion',this)">Companion</div>
+  <div class="tab" onclick="sw('profile',this)">Profile</div>
+</div>
+
+<div class="screens">
+
+<!-- DASHBOARD -->
+<div id="s-dashboard" class="screen on">
+
+  <!-- Hero with doodle stars -->
+  <div class="hero">
+    <!-- doodle: scattered stars top-right -->
+    <svg class="doodle" style="right:10px;top:8px;width:90px;height:70px" viewBox="0 0 90 70" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round">
+      <path d="M70 10 L71.5 14 L76 14 L72.5 17 L74 21 L70 18.5 L66 21 L67.5 17 L64 14 L68.5 14 Z"/>
+      <path d="M20 8 L21 11 L24 11 L21.5 13 L22.5 16 L20 14.5 L17.5 16 L18.5 13 L16 11 L19 11 Z"/>
+      <circle cx="50" cy="6" r="2"/>
+      <circle cx="82" cy="30" r="1.5"/>
+      <circle cx="10" cy="30" r="1.5"/>
+      <path d="M60 32 Q65 28 70 32"/>
+      <path d="M15 20 Q18 15 22 18"/>
+    </svg>
+    <svg class="doodle" style="left:10px;bottom:8px;width:56px;height:46px;opacity:0.16" viewBox="0 0 56 46" fill="none" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="20" cy="34" rx="14" ry="5"/><path d="M6 34 v-6 a14 5 0 0 0 28 0 v6"/><path d="M6 28 v-6 a14 5 0 0 0 28 0 v6"/>
+      <circle cx="42" cy="14" r="9"/><path d="M42 9 v10 M38.5 12 h7"/>
+    </svg>
+    <div class="hero-label">your treasury</div>
+    <div class="hero-amt" id="dash-bal">₹2,340</div>
+    <div class="hero-sub">real balance via PayPal sandbox</div>
+    <div class="pp-sync"><div class="sync-dot"></div> PayPal Sandbox · Live</div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:15px">Oryn Agent</b><span class="rpill rp-v" style="margin:0" id="ai-mode">AI</span></div>
+    <div class="q-sub" style="margin:4px 0 8px">Oryn reads your PayPal activity and proposes moves. You approve every one.</div>
+    <div class="chips"><button class="sbtn2 v" onclick="oryn('audit','','Subscription audit')">Audit subscriptions</button><button class="sbtn2 v" onclick="oryn('tune_autofund','','Tune auto-fund')">Tune auto-fund</button><button class="sbtn2 v" onclick="oryn('forecast','','Forecast and weekly report')">Forecast</button><button class="sbtn2" onclick="tryBuy()">Try a purchase</button></div>
+    <div style="display:flex;gap:6px"><input class="fin" id="cmd" style="margin:0" placeholder="e.g. send ₹300 to Mic quest every Friday"><button class="sbtn2 v" onclick="oryn('command',$('cmd').value,'Command')">Go</button></div>
+    <div class="q-sub" style="margin:.7rem 0 3px"><b>Audit log</b> (every action, approved by you)</div><div id="audit" class="q-sub">Nothing yet.</div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center"><div class="pp-logo">Pay<b>Pal</b> Hub</div><div class="rpill rp-green" style="margin:0" id="hub-mode">Sandbox</div></div>
+    <div style="font-size:11px;font-weight:600;color:var(--ink2);margin-top:4px">Every coin in Realm moves through PayPal. <span id="hub-last">No payments yet this session.</span></div>
+    <div class="hub">
+      <button class="sbtn2 pp" onclick="ppPay({title:'Add gold to your treasury',amt:500,dir:'in',done:(a,id)=>addTx('PayPal deposit',a,'in',id)})">+ Add gold</button>
+      <button class="sbtn2 pp" onclick="sw('quests',document.querySelectorAll('.tab')[1])">Fund a quest</button>
+      <button class="sbtn2 pp" onclick="sw('guild',document.querySelectorAll('.tab')[5])">Pay squad</button>
+    </div>
+  </div>
+
+  <div class="row2">
+    <!-- Char card with doodle sword -->
+    <div class="char-card">
+      <svg class="doodle" style="right:4px;bottom:4px;width:60px;height:60px" viewBox="0 0 60 60" fill="none" stroke="#8A5C00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M30 5 L31.5 20 L36 20 L30 55 L24 20 L28.5 20 Z"/>
+        <path d="M22 15 L38 15"/>
+        <circle cx="30" cy="8" r="3"/>
+      </svg>
+      <div class="char-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="10" y="1" width="2" height="20" fill="#1A1825" rx="1"/><rect x="4" y="8" width="14" height="2" fill="#1A1825" rx="1"/><rect x="6" y="4" width="10" height="2" fill="#1A1825" rx="1"/></svg>
+      </div>
+      <div class="char-name">Aryan</div>
+      <div class="char-cls">Guardian · Lvl 7</div>
+      <div class="stat-mini">
+        <div class="sm-row"><div class="sm-label">DISC</div><div class="sm-track"><div class="sm-fill sf-d"></div></div></div>
+        <div class="sm-row"><div class="sm-label">FORE</div><div class="sm-track"><div class="sm-fill sf-f"></div></div></div>
+        <div class="sm-row"><div class="sm-label">IMP</div><div class="sm-track"><div class="sm-fill sf-i"></div></div></div>
+      </div>
+    </div>
+
+    <!-- XP card with doodle sparkles -->
+    <div class="xp-card">
+      <svg class="doodle" style="right:6px;bottom:8px;width:55px;height:55px" viewBox="0 0 55 55" fill="none" stroke="#5C4EE5" stroke-width="1.6" stroke-linecap="round">
+        <path d="M28 5 L29 10 L34 10 L30 13 L31.5 18 L28 15.5 L24.5 18 L26 13 L22 10 L27 10 Z"/>
+        <path d="M10 25 L11 28 L14 28 L11.5 30 L12.5 33 L10 31.5 L7.5 33 L8.5 30 L6 28 L9 28 Z"/>
+        <circle cx="44" cy="20" r="2"/>
+        <path d="M42 36 L43 38 L45 38 L43.5 39.5 L44 42 L42 40.5 L40 42 L40.5 39.5 L39 38 L41 38 Z"/>
+      </svg>
+      <div class="xp-top"><div class="xp-title">Level XP</div><div class="xp-pct">68%</div></div>
+      <div class="xp-track"><div class="xp-fill"></div></div>
+      <div class="xp-sub">1,360 / 2,000 to Lvl 8</div>
+      <div class="xp-tags">
+        <span class="xtag">3-day streak</span>
+        <span class="xtag">2 quests</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Debuff with doodle lightning -->
+  <div class="debuff">
+    <svg class="doodle" style="right:12px;top:50%;transform:translateY(-50%);width:40px;height:50px" viewBox="0 0 40 50" fill="none" stroke="#F05454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 4 L14 24 L20 24 L16 46 L30 20 L23 20 Z"/>
+    </svg>
+    <div class="debuff-label">Active Debuff — Impulse Weakness</div>
+    <div class="debuff-txt">3 food delivery orders in a row cost you 5 Discipline. Oryn has a recovery quest ready.</div>
+  </div>
+
+  <div class="sec">Active Quests</div>
+  <div style="margin-bottom:0.65rem"></div>
+
+  <!-- Quest card mic with doodle mic -->
+  <div class="qcard active" data-qid="mic" data-saved="5695" data-goal="8500" data-xp="500">
+    <svg class="doodle" style="right:12px;top:50%;transform:translateY(-50%);width:36px;height:52px" viewBox="0 0 36 52" fill="none" stroke="#5C4EE5" stroke-width="1.8" stroke-linecap="round">
+      <rect x="10" y="2" width="16" height="26" rx="8" stroke-width="1.8"/>
+      <path d="M4 22 Q4 38 18 38 Q32 38 32 22"/>
+      <path d="M18 38 L18 48"/>
+      <path d="M10 48 L26 48"/>
+    </svg>
+    <div class="q-eyebrow qe-gold">MAIN QUEST</div>
+    <div class="q-name">Unlock: Blue Yeti Mic</div>
+    <div class="q-sub">₹5,695 saved · ₹2,805 to go</div>
+    <div class="q-prog-row"><div class="q-track"><div class="q-fill qf-gold" style="width:67%"></div></div><div class="q-pct">67%</div></div>
+    <span class="rpill rp-gold">+500 XP on complete</span>
+  </div>
+
+  <!-- Guild quest with doodle plane -->
+  <div class="qcard" data-qid="goa" data-saved="7920" data-goal="18000" data-xp="1200">
+    <svg class="doodle" style="right:12px;top:50%;transform:translateY(-50%);width:44px;height:40px" viewBox="0 0 44 40" fill="none" stroke="#17B978" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 20 L40 10 L34 20 L40 30 Z"/>
+      <path d="M20 16 L18 28"/>
+      <path d="M14 24 L22 22"/>
+    </svg>
+    <div class="q-eyebrow qe-green">GUILD QUEST</div>
+    <div class="q-name">Goa Trip — Dec 2024</div>
+    <div class="q-sub">₹7,920 pooled with the squad</div>
+    <div class="q-prog-row"><div class="q-track"><div class="q-fill qf-green" style="width:44%"></div></div><div class="q-pct">44%</div></div>
+    <span class="rpill rp-green">+1200 XP on complete</span>
+  </div>
+
+  <div class="sec" style="margin-top:0.9rem">Recent Activity</div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="tx-card">
+    <div class="tx">
+      <div class="tx-ico"><svg width="40" height="40" viewBox="0 0 40 40"><rect x='4' y='4' width='32' height='32' rx='9' fill='#FF7A2F'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 17 h7 M22 17 h7'/><path d='M15 26 h10'/></g></svg></div>
+      <div class="tx-inf"><div class="tx-n">Swiggy · Dinner</div><div class="tx-t">Today 8:42 PM</div></div>
+      <div class="tx-a neg">−₹340</div>
+    </div>
+    <div class="tx">
+      <div class="tx-ico"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx='20' cy='20' r='16' fill='#17B978'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 18 q3 3 6 0 M23 18 q3 3 6 0'/><path d='M14 24 q6 6 12 0'/></g></svg></div>
+      <div class="tx-inf"><div class="tx-n">Freelance received</div><div class="tx-t">Today 2:15 PM</div></div>
+      <div class="tx-a pos">+₹1,500</div>
+    </div>
+    <div class="tx">
+      <div class="tx-ico"><svg width="40" height="40" viewBox="0 0 40 40"><g fill='#F5A623'><circle cx='13' cy='13' r='9'/><circle cx='27' cy='13' r='9'/><circle cx='13' cy='27' r='9'/><circle cx='27' cy='27' r='9'/><rect x='11' y='11' width='18' height='18'/></g><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 19 q3 3 6 0 M22 19 q3 3 6 0'/><path d='M15 25 q5 5 10 0'/></g></svg></div>
+      <div class="tx-inf"><div class="tx-n">Quest save · Mic Fund</div><div class="tx-t">Yesterday</div></div>
+      <div class="tx-a pos">+₹200</div>
+    </div>
+    <div class="tx">
+      <div class="tx-ico"><svg width="40" height="40" viewBox="0 0 40 40"><path d='M20 4 L37 34 H3 Z' fill='#9B8CFF' stroke='#9B8CFF' stroke-width='4' stroke-linejoin='round'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 24 l6 2.5 M28 24 l-6 2.5'/><path d='M16 31 q4 -3 8 0'/></g></svg></div>
+      <div class="tx-inf"><div class="tx-n">Zara · Impulse buy</div><div class="tx-t">Yesterday 4:30 PM</div></div>
+      <div class="tx-a neg">−₹1,200</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUESTS -->
+<div id="s-quests" class="screen">
+  <div class="alert-card">
+    <!-- doodle warning squiggle -->
+    <svg class="doodle" style="right:12px;top:12px;width:38px;height:38px" viewBox="0 0 38 38" fill="none" stroke="#F05454" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 4 L35 34 L3 34 Z"/>
+      <path d="M19 16 L19 24"/>
+      <circle cx="19" cy="29" r="1.5" fill="#F05454"/>
+    </svg>
+    <div class="alert-hed">Oryn's Warning</div>
+    <div class="alert-bod">About to spend ₹1,200 on sneakers. That's <strong>6 days of quest progress</strong> gone. Impulse debuff active — costs <strong>−8 Discipline</strong>.</div>
+    <div class="alert-btns">
+      <button class="abtn abtn-no" onclick="this.closest('.alert-card').style.display='none'">Hold off</button>
+      <button class="abtn abtn-yes">Proceed</button>
+    </div>
+  </div>
+
+  <div class="sec-row" style="margin-top:0"><div class="sec" style="margin-top:0">Your Quests</div><button class="sbtn2 v" onclick="openNQ()">+ New quest</button></div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="qcard active" data-qid="mic" data-saved="5695" data-goal="8500" data-xp="500">
+    <svg class="doodle" style="right:12px;top:50%;transform:translateY(-50%);width:36px;height:52px" viewBox="0 0 36 52" fill="none" stroke="#5C4EE5" stroke-width="1.8" stroke-linecap="round"><rect x="10" y="2" width="16" height="26" rx="8"/><path d="M4 22 Q4 38 18 38 Q32 38 32 22"/><path d="M18 38 L18 48"/><path d="M10 48 L26 48"/></svg>
+    <div class="q-eyebrow qe-gold">MAIN QUEST · ACTIVE</div>
+    <div class="q-name">Unlock: Blue Yeti Mic</div>
+    <div class="q-sub">₹5,695 of ₹8,500 · 32 days saving</div>
+    <div class="q-prog-row"><div class="q-track"><div class="q-fill qf-gold" style="width:67%"></div></div><div class="q-pct">67%</div></div>
+    <span class="rpill rp-gold">+500 XP</span> <button class="sbtn2 pp" style="margin-left:6px" onclick="fundBtn(this)">Fund with PayPal</button> <button class="sbtn2 autob" onclick="autoToggle(this)">Auto-fund weekly</button>
+  </div>
+  <div class="qcard">
+    <svg class="doodle" style="right:12px;top:50%;transform:translateY(-50%);width:38px;height:38px" viewBox="0 0 38 38" fill="none" stroke="#5C4EE5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="19" cy="19" r="15"/>
+      <path d="M19 10 L19 19 L26 19"/>
+    </svg>
+    <div class="q-eyebrow qe-v">RECOVERY QUEST · ACTIVE</div>
+    <div class="q-name">7-Day Food Delivery Detox</div>
+    <div class="q-sub">Day 2 of 7 · assigned by Oryn</div>
+    <div class="q-prog-row"><div class="q-track"><div class="q-fill qf-v" style="width:28%"></div></div><div class="q-pct">28%</div></div>
+    <span class="rpill rp-v">+200 XP</span>
+  </div>
+  <div class="qcard" data-qid="goa" data-saved="7920" data-goal="18000" data-xp="1200">
+    <svg class="doodle" style="right:12px;top:50%;transform:translateY(-50%);width:44px;height:40px" viewBox="0 0 44 40" fill="none" stroke="#17B978" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 L40 10 L34 20 L40 30 Z"/><path d="M20 16 L18 28"/><path d="M14 24 L22 22"/></svg>
+    <div class="q-eyebrow qe-green">GUILD QUEST · ACTIVE</div>
+    <div class="q-name">Goa Trip — The Broke Squad</div>
+    <div class="q-sub">₹7,920 pooled of ₹18,000</div>
+    <div class="q-prog-row"><div class="q-track"><div class="q-fill qf-green" style="width:44%"></div></div><div class="q-pct">44%</div></div>
+    <span class="rpill rp-green">+1200 XP</span> <button class="sbtn2 pp" style="margin-left:6px" onclick="fundBtn(this)">Fund with PayPal</button> <button class="sbtn2 autob" onclick="autoToggle(this)">Auto-fund weekly</button>
+  </div>
+
+  <div class="sec" style="margin-top:0.9rem">Suggested by Oryn</div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="qcard" style="opacity:0.45;border-style:dashed">
+    <svg class="doodle" style="right:12px;top:50%;transform:translateY(-50%);width:34px;height:42px;opacity:0.2" viewBox="0 0 34 42" fill="none" stroke="#6B6880" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="18" width="26" height="20" rx="4"/><path d="M10 18 v-6 a7 7 0 0 1 14 0 v6"/><circle cx="17" cy="28" r="2"/>
+    </svg>
+    <div class="q-eyebrow qe-ink">LONG QUEST · LOCKED · LVL 10</div>
+    <div class="q-name">MacBook Fund</div>
+    <div class="q-sub">₹85,000 goal</div>
+    <span class="rpill rp-v">+3000 XP</span>
+  </div>
+</div>
+
+<!-- GUILD -->
+<div id="s-guild" class="screen">
+  <div class="guild-hero">
+    <!-- doodle palm tree top right -->
+    <svg class="doodle" style="right:12px;top:8px;width:60px;height:80px;opacity:0.18" viewBox="0 0 60 80" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M30 70 L30 30"/>
+      <path d="M30 32 Q20 20 8 22 Q18 28 30 32"/>
+      <path d="M30 32 Q40 18 52 20 Q42 28 30 32"/>
+      <path d="M30 38 Q16 32 10 36 Q20 38 30 38"/>
+      <path d="M28 70 Q26 60 30 55 Q34 60 32 70"/>
+    </svg>
+    <svg class="doodle" style="left:12px;bottom:10px;width:70px;height:34px;opacity:0.18" viewBox="0 0 70 34" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 12 q8 -10 16 0 t16 0 t16 0 t14 0"/><path d="M4 24 q8 -10 16 0 t16 0 t16 0 t14 0"/>
+    </svg>
+    <svg class="doodle" style="right:90px;top:14px;width:30px;height:30px;opacity:0.2" viewBox="0 0 30 30" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round">
+      <circle cx="15" cy="15" r="5"/><path d="M15 2 v4 M15 24 v4 M2 15 h4 M24 15 h4 M6 6 l3 3 M21 21 l3 3 M24 6 l-3 3 M9 21 l-3 3"/>
+    </svg>
+    <div class="guild-title">The Broke Squad</div>
+    <div class="guild-meta">4 members · pooling since Sept 2024</div>
+    <div class="guild-members">
+      <div class="mav" style="background:#8B5CF6">A</div>
+      <div class="mav" style="background:#10B981">R</div>
+      <div class="mav" style="background:#F59E0B">S</div>
+      <div class="mav" style="background:#EC4899">P</div>
+    </div>
+    <div class="guild-goal-label">current guild quest</div>
+    <div class="guild-goal-name">Goa trip — Dec 2024</div>
+    <div class="guild-amt-row"><span>₹7,920 pooled</span><span>of ₹18,000</span></div>
+    <div class="g-track"><div class="g-fill"></div></div>
+  </div>
+
+  <div class="sec">Contributions</div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="contribs">
+    <div class="ctr">
+    <svg class="doodle" style="right:92px;top:50%;transform:translateY(-50%);width:34px;height:34px" viewBox="0 0 34 34" fill="none" stroke="#17B978" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="17" r="11"/><circle cx="17" cy="17" r="6"/></svg>
+      <div class="ctr-name">Aryan (you)</div><div class="ctr-amt">₹2,500</div></div>
+    <div class="ctr">
+    <svg class="doodle" style="right:92px;top:50%;transform:translateY(-50%);width:34px;height:34px" viewBox="0 0 34 34" fill="none" stroke="#17B978" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="17" r="11"/><circle cx="17" cy="17" r="6"/></svg>
+      <div class="ctr-name">Riya</div><div class="ctr-amt">₹2,200</div></div>
+    <div class="ctr">
+    <svg class="doodle" style="right:92px;top:50%;transform:translateY(-50%);width:34px;height:34px" viewBox="0 0 34 34" fill="none" stroke="#17B978" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="17" r="11"/><circle cx="17" cy="17" r="6"/></svg>
+      <div class="ctr-name">Sahil</div><div class="ctr-amt">₹1,980</div></div>
+    <div class="ctr">
+    <svg class="doodle" style="right:92px;top:50%;transform:translateY(-50%);width:34px;height:34px" viewBox="0 0 34 34" fill="none" stroke="#17B978" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="17" r="11"/><circle cx="17" cy="17" r="6"/></svg>
+      <div class="ctr-name">Priya</div><div class="ctr-amt">₹1,240</div></div>
+  </div>
+
+  <div class="sec" style="margin-top:.9rem">Request from Squad</div><div style="margin-bottom:.6rem"></div>
+  <div class="card">
+    <div class="q-sub">Ask each member to chip in through PayPal.</div>
+    <input class="fin" id="req-a" type="number" value="500" placeholder="Amount per member (₹)">
+    <button class="sbtn2 pp" onclick="reqSend()">Send PayPal requests</button> <button class="sbtn2" onclick="reqCopy()">Copy PayPal.me link</button> <button class="sbtn2 v" onclick="oryn('squad','','Squad negotiator')">Let Oryn split and draft</button>
+    <div id="req-list" style="margin-top:.5rem"></div>
+  </div>
+  <div class="card" id="payout"></div>
+
+  <div class="sandbox-tag">PayPal Sandbox · payments simulated</div>
+  <button class="paypal-btn" onclick="doPP()">Pay via PayPal · Contribute ₹500</button>
+  <div id="pp-confirm" class="pp-confirm">Payment sent · +₹500 added · Your total: ₹3,000 · Squad XP +120</div>
+</div>
+
+
+<!-- ARENA -->
+<div id="s-arena" class="screen">
+  <div class="sec">Daily Spin</div><div style="margin-bottom:.6rem"></div>
+  <div class="card" style="text-align:center">
+    <div class="wheel-wrap"><div class="ptr"></div><svg class="w" id="wheel" viewBox="0 0 220 220"></svg></div>
+    <button class="sbtn2 v" id="spin-btn" onclick="spin()" style="padding:10px 24px;font-size:13px">Spin the wheel</button>
+    <div id="spin-res" class="oryn-q" style="display:none"></div>
+  </div>
+  <div class="sec" style="margin-top:.9rem">Boss Battle</div><div style="margin-bottom:.6rem"></div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px">The Subscription Hydra</b><span class="q-pct" id="boss-pct"></span></div>
+    <div id="hydra" style="text-align:center"></div>
+    <div class="bar"><i id="boss-bar" style="background:var(--coral)"></i></div>
+    <div class="q-sub" style="margin:6px 0 .6rem" id="boss-sub"></div>
+    <div id="subs"></div>
+    <div class="oryn-q">Slay a head by cancelling it, then redirect that month's cost to your Mic quest through PayPal.</div>
+  </div>
+</div>
+
+<!-- IMPULSE LAB -->
+<div id="s-lab" class="screen">
+  <div class="sec">Waiting Room</div><div style="margin-bottom:.6rem"></div>
+  <div class="card">
+    <div style="font-size:11px;font-weight:600;color:var(--ink2);margin-bottom:6px">Park anything you want for 48 hours. Oryn asks again when the timer ends.</div>
+    <input class="fin" id="wr-n" placeholder="What do you want?">
+    <input class="fin" id="wr-p" type="number" placeholder="Price in ₹">
+    <button class="sbtn2 v" onclick="wrAdd()">Lock it for 48h</button>
+  </div>
+  <div id="wr-list"></div><div id="wr-kept"></div>
+  <div class="sec" style="margin-top:.9rem">Mood Check-in</div><div style="margin-bottom:.6rem"></div>
+  <div class="card" id="mood-card"></div>
+  <div class="card" id="mood-ins"></div>
+</div>
+
+<!-- CALENDAR -->
+<div id="s-calendar" class="screen">
+  <div class="cd-hero">
+    <svg class="doodle" style="right:14px;top:12px;width:54px;height:70px;opacity:0.22" viewBox="0 0 54 70" fill="none" stroke="#1A1825" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6 h34 M10 64 h34"/><path d="M14 6 q0 22 13 29 q-13 7 -13 29 M40 6 q0 22 -13 29 q13 7 13 29"/><path d="M20 56 h14"/></svg>
+    <div class="hero-label">countdown until month ends</div>
+    <div class="cd-big"><div class="cd-num" id="cd-d">--</div><div class="cd-unit">days left in<br><span id="cd-month">this month</span></div></div>
+    <div class="cd-clock">
+      <div class="cd-box"><b id="cd-h">--</b><span>HRS</span></div>
+      <div class="cd-box"><b id="cd-m">--</b><span>MIN</span></div>
+      <div class="cd-box"><b id="cd-s">--</b><span>SEC</span></div>
+    </div>
+    <div class="cd-track"><div class="cd-fill" id="cd-fill"></div></div>
+    <div class="cd-sub" id="cd-sub"></div>
+  </div>
+
+  <div style="margin:.2rem 0 .7rem"><button class="sbtn2 v" onclick="oryn('forecast','','Forecast and weekly report')">Ask Oryn for a forecast</button></div>
+  <div class="sec">Month Map</div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="card">
+    <div class="cal-head"><div class="cal-title" id="cal-title"></div></div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div class="cal-legend"><span><i class="dt-v"></i>Quest</span><span><i class="dt-g"></i>Guild</span><span><i class="dt-y"></i>Top-up</span><span><i class="dt-c"></i>Report</span></div>
+    <div class="cal-detail" id="cal-detail">Tap a day to see what is planned.</div>
+  </div>
+
+  <div class="sec" style="margin-top:0.9rem">Daily Ration</div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="card ration">
+    <div style="flex-shrink:0"><svg width='52' height='52' viewBox='0 0 40 40'><g fill='#F5A623'><circle cx='13' cy='13' r='9'/><circle cx='27' cy='13' r='9'/><circle cx='13' cy='27' r='9'/><circle cx='27' cy='27' r='9'/><rect x='11' y='11' width='18' height='18'/></g><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 19 q3 3 6 0 M22 19 q3 3 6 0'/><path d='M15 25 q5 5 10 0'/></g></svg></div>
+    <div>
+      <div class="ration-amt" id="ration-amt">₹0</div>
+      <div class="ration-sub" id="ration-sub"></div>
+    </div>
+  </div>
+
+  <div class="sec" style="margin-top:0.9rem">Coming Up</div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="tx-card" id="up-list"></div>
+</div>
+
+
+<!-- PROFILE -->
+<div id="s-profile" class="screen">
+  <div class="pf-hero">
+    <div class="pf-av"><svg width='56' height='56' viewBox='0 0 40 40'><path d='M5 36 V19 a15 15 0 0 1 30 0 V36 Z' fill='#9B8CFF' stroke='#9B8CFF' stroke-width='2' stroke-linejoin='round'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21 q3 3 6 0 M22 21 q3 3 6 0'/><path d='M16 28 q4 3 8 0'/></g></svg></div>
+    <div>
+      <div class="pf-name" id="pf-name-h">Aryan</div>
+      <div class="pf-cls">Guardian · Lvl 7</div>
+      <div class="pf-chips"><span class="xtag">Since Sept 2024</span><span class="xtag">The Broke Squad</span></div>
+    </div>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><b>4</b><span>quests done</span></div>
+    <div class="fact"><b>32</b><span>days saving</span></div>
+    <div class="fact"><b>9</b><span>best streak</span></div>
+  </div>
+
+  <div style="text-align:center;margin:.2rem 0 .4rem"><button class="sbtn2" onclick="levelUp()">Preview level-up</button></div>
+  <div class="sec-row"><div class="sec" style="margin-top:0">Personal Info</div><button class="pf-edit" id="pf-edit" onclick="togglePf()">Edit</button></div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="tx-card">
+    <div class="pf-row"><div class="pf-l">Display name</div><input class="pf-in" id="pf-name" value="Aryan" disabled></div>
+    <div class="pf-row"><div class="pf-l">Username</div><input class="pf-in" id="pf-user" value="@aryan.saves" disabled></div>
+    <div class="pf-row"><div class="pf-l">Email</div><input class="pf-in" id="pf-mail" value="aryan@realm.app" disabled></div>
+    <div class="pf-row"><div class="pf-l">Monthly saving goal</div><input class="pf-in" id="pf-goal" value="₹8,000" disabled></div>
+    <div class="pf-row"><div class="pf-l">Currency</div><div class="pf-in" style="padding:5px 8px;border:1.5px solid transparent">INR · ₹</div></div>
+    <div class="pf-row"><div class="pf-l">Linked wallet</div><div class="pf-in" style="padding:5px 8px;border:1.5px solid transparent">PayPal Sandbox</div></div>
+  </div>
+  <div class="pf-saved" id="pf-saved">Profile saved · your realm remembers you</div>
+
+  <div class="sec-row" style="margin-top:.9rem"><div class="sec" style="margin-top:0">Reward Shop</div><span class="rpill rp-gold" style="margin:0"><span id="coins">0</span> coins</span></div>
+  <div style="margin-bottom:.6rem"></div>
+  <div class="card" id="shop"></div>
+  <div class="sec" style="margin-top:0.9rem">Badges</div>
+  <div style="margin-bottom:0.6rem"></div>
+  <div class="badges">
+    <div class='badge'><svg width='44' height='44' viewBox='0 0 40 40'><circle cx='20' cy='20' r='16' fill='#17B978'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 18 q3 3 6 0 M23 18 q3 3 6 0'/><path d='M14 24 q6 6 12 0'/></g></svg><div class='badge-n'>First Quest</div><div class='badge-s'>completed</div></div>
+    <div class='badge'><svg width='44' height='44' viewBox='0 0 40 40'><g fill='#F5A623'><circle cx='13' cy='13' r='9'/><circle cx='27' cy='13' r='9'/><circle cx='13' cy='27' r='9'/><circle cx='27' cy='27' r='9'/><rect x='11' y='11' width='18' height='18'/></g><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 19 q3 3 6 0 M22 19 q3 3 6 0'/><path d='M15 25 q5 5 10 0'/></g></svg><div class='badge-n'>3-Day Streak</div><div class='badge-s'>active now</div></div>
+    <div class='badge'><svg width='44' height='44' viewBox='0 0 40 40'><path d='M5 36 V19 a15 15 0 0 1 30 0 V36 Z' fill='#9B8CFF' stroke='#9B8CFF' stroke-width='2' stroke-linejoin='round'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 21 q3 3 6 0 M22 21 q3 3 6 0'/><path d='M16 28 q4 3 8 0'/></g></svg><div class='badge-n'>Guild Founder</div><div class='badge-s'>started a squad</div></div>
+    <div class='badge lock'><svg width='44' height='44' viewBox='0 0 40 40'><rect x='4' y='4' width='32' height='32' rx='9' fill='#FF7A2F'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 17 h7 M22 17 h7'/><path d='M15 26 h10'/></g></svg><div class='badge-n'>Swiggy Free Week</div><div class='badge-s'>7 days clean</div></div>
+    <div class='badge lock'><svg width='44' height='44' viewBox='0 0 40 40'><path d='M20 3 L35 11.5 V28.5 L20 37 L5 28.5 V11.5 Z' fill='#9FDBFF' stroke='#9FDBFF' stroke-width='3' stroke-linejoin='round'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 18 q3 3 6 0 M22 18 q3 3 6 0'/><path d='M15 26 h10'/></g></svg><div class='badge-n'>Mic Master</div><div class='badge-s'>finish the Yeti quest</div></div>
+    <div class='badge lock'><svg width='44' height='44' viewBox='0 0 40 40'><path d='M20 4 L37 34 H3 Z' fill='#FFB3D6' stroke='#FFB3D6' stroke-width='4' stroke-linejoin='round'/><g fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 24 l6 2.5 M28 24 l-6 2.5'/><path d='M16 31 q4 -3 8 0'/></g></svg><div class='badge-n'>Zero Impulse Month</div><div class='badge-s'>no debuffs</div></div>
+  </div>
+</div>
+
+<!-- COMPANION -->
+<div id="s-companion" class="screen">
+  <div class="companion-layout">
+    <div class="comp-head">
+      <div class="oryn-av">O</div>
+      <div>
+        <div class="oryn-name">Oryn</div>
+        <div class="oryn-role">AI Financial Companion</div>
+      </div>
+      <div class="online-pill"><div class="sync-dot" style="background:var(--green)"></div> Online</div>
+    </div>
+    <div class="quick-pills">
+      <button class="qp" onclick="sq('How close am I to my mic quest?')">Mic progress</button>
+      <button class="qp" onclick="sq('I want to impulse buy something')">Impulse alert</button>
+      <button class="qp" onclick="sq('Suggest a new quest for me')">New quest</button>
+      <button class="qp" onclick="sq('How is my character doing?')">My stats</button>
+    </div>
+    <div class="chat-msgs" id="chat-msgs">
+      <div class="msg">
+        <div class="mav2 mav-oryn">O</div>
+        <div>
+          <div class="bubble">Greetings, Aryan. I am Oryn. Your Discipline is recovering — 2 days clean of impulse spending. Your Mic quest stands at 67%. Do not falter now. What would you know?</div>
+          <div class="mtime">just now</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-row">
+      <input class="cinput" id="cinput" placeholder="Ask Oryn..." onkeydown="hk(event)">
+      <button class="sbtn" onclick="send()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<div class="modal" id="oc" onclick="if(event.target===this)this.classList.remove('on')"><div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:16px" id="oc-title">Oryn</b><button class="sbtn2" onclick="document.getElementById('oc').classList.remove('on')">✕</button></div>
+  <div id="oc-trace" style="margin:.6rem 0"></div>
+  <div class="oryn-q" id="oc-text"></div>
+  <div id="oc-props"></div>
+  <div class="q-sub">Oryn only proposes. Nothing moves until you approve.</div>
+</div></div>
+<div class="modal" id="pp" onclick="if(event.target===this)ppClose()"><div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:center"><div class="pp-logo">Pay<b>Pal</b></div><button class="sbtn2" onclick="ppClose()">✕</button></div>
+  <div id="pp-body">
+    <div style="font-size:15px;font-weight:800;margin:.7rem 0 .2rem" id="pp-title"></div>
+    <label style="font-size:11px;font-weight:700;color:var(--ink2)">Amount (₹)</label>
+    <input class="fin" id="pp-amt" type="number" min="1">
+    <div class="chips" id="pp-chips"><span class="chip" onclick="ppSet(100)">₹100</span><span class="chip" onclick="ppSet(250)">₹250</span><span class="chip" onclick="ppSet(500)">₹500</span></div>
+    <div class="pp-row"><span>Funding source</span><span>PayPal Sandbox balance</span></div>
+    <div class="pp-row"><span>Fee</span><span>₹0 (sandbox)</span></div>
+    <div id="pp-guard" class="oryn-q" style="display:none"></div>
+    <div id="pp-err" style="color:var(--coral);font-size:11px;font-weight:700;margin-top:6px"></div>
+    <div id="pp-btns"></div>
+    <button class="pbtn" id="pp-go" onclick="ppGo()">Pay with PayPal</button>
+    <div id="pp-note" style="font-size:10px;font-weight:600;color:var(--ink3);margin-top:8px;text-align:center"></div>
+  </div>
+  <div id="pp-done" style="display:none;text-align:center;padding:1rem 0"></div>
+</div></div>
+
+<div class="modal" id="nq" onclick="if(event.target===this)this.classList.remove('on')"><div class="sheet">
+  <div class="sec" style="margin:0 0 .5rem">New Quest</div>
+  <input class="fin" id="nq-n" placeholder="Quest name (e.g. New headphones)">
+  <input class="fin" id="nq-g" type="number" placeholder="Goal in ₹">
+  <div class="chips" id="nq-t"><span class="chip on" data-t="personal" onclick="nqT(this)">Personal</span><span class="chip" data-t="guild" onclick="nqT(this)">Guild</span><span class="chip" data-t="long" onclick="nqT(this)">Long quest</span></div>
+  <label style="font-size:12px;font-weight:700;display:flex;gap:8px;align-items:center"><input type="checkbox" id="nq-auto"> Weekly auto-fund with PayPal (₹200, simulated)</label>
+  <button class="pbtn" style="background:var(--violet);color:#fff" onclick="nqMake()">Create quest</button>
+</div></div>
+
+<div class="modal mid" id="lv"><div class="sheet">
+  <div id="lv-blob"></div><div class="hero-label" style="color:var(--ink2)">level up!</div>
+  <div class="lv-num" id="lv-n">8</div>
+  <div style="font-size:12px;font-weight:600;color:var(--ink2);margin:6px 0 12px" id="lv-t"></div>
+  <button class="sbtn2 v" onclick="document.getElementById('lv').classList.remove('on')">Onward</button>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+function sw(id,el){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  el.classList.add('on');
+  if(id==='calendar')renderCal();
+}
+
+function inr(n){return '₹'+Math.round(n).toLocaleString('en-IN');}
+let selDay=null;
+function monthInfo(){
+  const now=new Date(),y=now.getFullYear(),m=now.getMonth();
+  return {now,y,m,dim:new Date(y,m+1,0).getDate(),today:now.getDate(),start:new Date(y,m,1),end:new Date(y,m+1,1),name:now.toLocaleString('en',{month:'long'})};
+}
+function monthEvents(){
+  const {dim,today}=monthInfo(),ev={};
+  const add=(d,t,l)=>{if(d>=1&&d<=dim)(ev[d]=ev[d]||[]).push({t,l});};
+  add(today+5,'v','Detox quest ends · +200 XP');
+  add(today+9,'y','Mic fund top-up day');
+  add(15,'g','Squad pool day · add ₹500 to the Goa fund');
+  add(dim,'c','Month ends · Oryn files your report');
+  return ev;
+}
+function tick(){
+  const {now,start,end,name,dim,today}=monthInfo();
+  const ms=Math.max(0,end-now),d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),mi=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);
+  const pad=n=>String(n).padStart(2,'0'),$=id=>document.getElementById(id);
+  $('cd-d').textContent=d;$('cd-month').textContent=name+' ends';
+  $('cd-h').textContent=pad(h);$('cd-m').textContent=pad(mi);$('cd-s').textContent=pad(s);
+  const pct=Math.round((now-start)/(end-start)*100);
+  $('cd-fill').style.width=pct+'%';
+  $('cd-sub').textContent='Day '+today+' of '+dim+' · '+pct+'% of the month gone';
+}
+function showDay(d){
+  selDay=d;
+  const ev=monthEvents(),{name}=monthInfo();
+  document.querySelectorAll('.cal-d').forEach(c=>c.classList.toggle('sel',+c.dataset.d===d));
+  document.getElementById('cal-detail').textContent=ev[d]?name+' '+d+' · '+ev[d].map(e=>e.l).join(' · '):name+' '+d+' · nothing planned. A quiet day for your gold.';
+}
+function renderCal(){
+  const {y,m,dim,today,name}=monthInfo(),ev=monthEvents();
+  document.getElementById('cal-title').textContent=name+' '+y;
+  const first=(new Date(y,m,1).getDay()+6)%7;
+  let h=['M','T','W','T','F','S','S'].map(x=>'<div class="cal-dow">'+x+'</div>').join('');
+  for(let i=0;i<first;i++)h+='<div></div>';
+  for(let d=1;d<=dim;d++){
+    const dots=(ev[d]||[]).map(e=>'<span class="cal-dot dt-'+e.t+'"></span>').join('');
+    h+='<div class="cal-d'+(d<today?' past':'')+(d===today?' today':'')+'" data-d="'+d+'" onclick="showDay('+d+')">'+d+(dots?'<div class="cal-dots">'+dots+'</div>':'')+'</div>';
+  }
+  document.getElementById('cal-grid').innerHTML=h;
+  showDay(selDay||today);
+  const bal=parseInt(document.getElementById('nav-gold').textContent.replace(/,/g,''),10)||0,left=dim-today+1;
+  document.getElementById('ration-amt').textContent=inr(bal/left)+' / day';
+  document.getElementById('ration-sub').textContent='Spend at most this each day and your '+inr(bal)+' gold lasts until '+name+' ends ('+left+' days incl. today).';
+  const up=[];
+  Object.keys(ev).forEach(d=>ev[d].forEach(e=>{if(+d>=today)up.push({d:+d,l:e.l});}));
+  up.sort((a,b)=>a.d-b.d);
+  document.getElementById('up-list').innerHTML=up.map(u=>{const n=u.d-today;return '<div class="up-row"><div class="up-when">'+(n===0?'today':n===1?'tomorrow':'in '+n+' days')+'</div><div class="up-what">'+u.l+'</div></div>';}).join('')||'<div class="up-row"><div class="up-what">Nothing left this month.</div></div>';
+}
+function togglePf(){
+  const btn=document.getElementById('pf-edit'),ids=['pf-name','pf-user','pf-mail','pf-goal'],editing=btn.classList.toggle('on');
+  ids.forEach(i=>document.getElementById(i).disabled=!editing);
+  btn.textContent=editing?'Save':'Edit';
+  if(editing){document.getElementById('pf-name').focus();document.getElementById('pf-saved').style.display='none';return;}
+  const name=document.getElementById('pf-name').value.trim()||'Aryan';
+  document.getElementById('pf-name').value=name;
+  document.getElementById('pf-name-h').textContent=name;
+  document.querySelectorAll('.char-name').forEach(e=>e.textContent=name);
+  document.getElementById('pf-saved').style.display='block';
+}
+tick();setInterval(tick,1000);renderCal();
+const $=id=>document.getElementById(id);
+const S={bal:2340,xp:1360,lvl:7,boss:1540,cap:3000,kept:0,coins:120};
+const FA="fill='none' stroke='#1A1825' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'";
+const BL={
+ circle:c=>`<circle cx='20' cy='20' r='16' fill='${c}'/><g ${FA}><path d='M11 18 q3 3 6 0 M23 18 q3 3 6 0'/><path d='M14 24 q6 6 12 0'/></g>`,
+ square:c=>`<rect x='4' y='4' width='32' height='32' rx='9' fill='${c}'/><g ${FA}><path d='M11 17 h7 M22 17 h7'/><path d='M15 26 h10'/></g>`,
+ clover:c=>`<g fill='${c}'><circle cx='13' cy='13' r='9'/><circle cx='27' cy='13' r='9'/><circle cx='13' cy='27' r='9'/><circle cx='27' cy='27' r='9'/><rect x='11' y='11' width='18' height='18'/></g><g ${FA}><path d='M12 19 q3 3 6 0 M22 19 q3 3 6 0'/><path d='M15 25 q5 5 10 0'/></g>`,
+ tri:c=>`<path d='M20 4 L37 34 H3 Z' fill='${c}' stroke='${c}' stroke-width='4' stroke-linejoin='round'/><g ${FA}><path d='M12 24 l6 2.5 M28 24 l-6 2.5'/><path d='M16 31 q4 -3 8 0'/></g>`,
+ ghost:c=>`<path d='M5 36 V19 a15 15 0 0 1 30 0 V36 Z' fill='${c}' stroke='${c}' stroke-width='2' stroke-linejoin='round'/><g ${FA}><path d='M12 21 q3 3 6 0 M22 21 q3 3 6 0'/><path d='M16 28 q4 3 8 0'/></g>`,
+ hex:c=>`<path d='M20 3 L35 11.5 V28.5 L20 37 L5 28.5 V11.5 Z' fill='${c}' stroke='${c}' stroke-width='3' stroke-linejoin='round'/><g ${FA}><path d='M12 18 q3 3 6 0 M22 18 q3 3 6 0'/><path d='M15 26 h10'/></g>`
+};
+const blob=(t,c,s=44)=>`<svg width='${s}' height='${s}' viewBox='0 0 40 40'>${BL[t](c)}</svg>`;
+let tt;function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2400);}
+function setBal(n){S.bal=n;$('nav-gold').textContent=Math.round(n).toLocaleString('en-IN');$('dash-bal').textContent=inr(n);if($('s-calendar').classList.contains('on'))renderCal();}
+const need=l=>2000+(l-7)*400;
+function updXP(){
+  const n=need(S.lvl),pct=Math.min(100,Math.round(S.xp/n*100));
+  document.querySelector('.xp-pct').textContent=pct+'%';document.querySelector('.xp-fill').style.width=pct+'%';
+  document.querySelector('.xp-sub').textContent=S.xp.toLocaleString('en-IN')+' / '+n.toLocaleString('en-IN')+' to Lvl '+(S.lvl+1);
+  document.querySelector('.nc-v').textContent='Lvl '+S.lvl;
+  document.querySelector('.char-cls').textContent='Guardian · Lvl '+S.lvl;
+  document.querySelector('.pf-cls').textContent='Guardian · Lvl '+S.lvl;
+}
+function addXP(n){S.xp+=n;S.coins+=Math.round(n/2);shopRender();toast('+'+n+' XP');while(S.xp>=need(S.lvl)){S.xp-=need(S.lvl);levelUp(true);}updXP();}
+const LB=[['clover','#F5A623'],['hex','#9FDBFF'],['circle','#17B978'],['tri','#FFB3D6'],['ghost','#9B8CFF']];
+function levelUp(real){
+  if(real)S.lvl++;const b=LB[S.lvl%LB.length],n=real?S.lvl:S.lvl+1;
+  $('lv-blob').innerHTML=blob(b[0],b[1],90);$('lv-n').textContent=n;
+  $('lv-t').textContent='Oryn bows. A new face joins your realm.';
+  $('lv').classList.add('on');
+  const cols=['#F5A623','#5C4EE5','#17B978','#F05454','#FFB3D6','#9FDBFF'];
+  for(let i=0;i<46;i++){const c=document.createElement('div');c.className='cf';c.style.left=Math.random()*100+'vw';c.style.background=cols[i%6];c.style.animationDelay=Math.random()*.8+'s';c.style.borderRadius=i%3?'2px':'50%';document.body.appendChild(c);setTimeout(()=>c.remove(),4000);}
+  if(real)updXP();
+}
+/* tx feed */
+function addTx(name,amt,kind,id){
+  const k={in:['circle','#17B978'],save:['clover','#F5A623'],spent:['square','#FF7A2F'],imp:['tri','#9B8CFF']}[kind]||['hex','#9FDBFF'];
+  const out=kind==='spent'||kind==='imp';
+  const row=document.createElement('div');row.className='tx';
+  TXL.unshift({name,amt,kind,id});row.innerHTML=`<div class="tx-ico">${blob(k[0],k[1],40)}</div><div class="tx-inf"><div class="tx-n">${name}</div><div class="tx-t">Just now${id?' · '+id:''}</div></div><div class="tx-a ${out?'neg':'pos'}">${out?'−':'+'}${inr(amt)}</div>`;
+  const c=document.querySelector('#s-dashboard .tx-card');c.insertBefore(row,c.firstChild);
+  while(c.children.length>5)c.removeChild(c.lastChild);
+}
+/* PayPal checkout (sandbox simulation) */
+let PP=null;
+function ppPay0(o){PP=o;$('pp').classList.add('on');$('pp-title').textContent=o.title;const i=$('pp-amt');i.value=o.amt;i.disabled=!!o.fixed;$('pp-chips').style.display=o.fixed?'none':'flex';
+  $('pp-body').style.display='block';$('pp-done').style.display='none';$('pp-err').textContent='';const b=$('pp-go');b.disabled=false;b.textContent=o.dir==='in'?'Add with PayPal':'Pay with PayPal';
+  $('pp-btns').innerHTML='';b.style.display=PAYPAL.clientId?'none':'block';
+  $('pp-note').textContent=PAYPAL.clientId?'Live PayPal sandbox checkout':'Simulation mode · add your sandbox client ID in the PAYPAL config to go live';
+  if(PAYPAL.clientId)ppLoad(()=>paypal.Buttons({
+    createOrder:()=>{const n=+$('pp-amt').value;if(!(n>0)||(PP.dir!=='in'&&n>S.bal)){$('pp-err').textContent='Check the amount and your balance.';throw new Error('bad amount');}return fetch('/api/paypal/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:n,description:PP.title})}).then(r=>r.json()).then(o=>o.id);},
+    onApprove:d=>fetch('/api/paypal/orders/'+d.orderID+'/capture',{method:'POST'}).then(r=>r.json()).then(x=>ppFinish(+$('pp-amt').value,x.id||d.orderID)),
+    onError:()=>toast('PayPal checkout error')}).render('#pp-btns'));}
+function ppSet(n){$('pp-amt').value=n;}
+function ppClose(){$('pp').classList.remove('on');}
+function ppGo(){
+  const a=+$('pp-amt').value;if(!(a>0)){$('pp-err').textContent='Enter an amount.';return;}
+  if(PP.dir!=='in'&&a>S.bal){$('pp-err').textContent='Not enough gold in your PayPal sandbox balance.';return;}
+  const b=$('pp-go');b.disabled=true;b.textContent='Contacting PayPal…';
+  setTimeout(()=>ppFinish(a,'PAYID-'+Math.random().toString(36).slice(2,8).toUpperCase()),1100);
+}
+function ppFinish(a,id){
+  setBal(S.bal+(PP.dir==='in'?a:-a));$('pp-body').style.display='none';
+  $('pp-done').innerHTML=blob('circle','#17B978',70)+`<div style="font-size:16px;font-weight:800;margin-top:6px">Payment complete</div><div style="font-size:11px;font-weight:600;color:var(--ink2);margin:4px 0 12px">${inr(a)} · ${id}</div><button class="sbtn2 v" onclick="ppClose()">Done</button>`;
+  $('pp-done').style.display='block';$('hub-last').textContent='Last: '+inr(a)+' · '+id;PP.done&&PP.done(a,id);
+}
+/* PayPal config: paste your sandbox client ID to switch from simulation to real PayPal buttons.
+   Note: PayPal may not accept INR on every account, so USD with a conversion rate is the default. */
+const PAYPAL={clientId:'',currency:'USD',rate:83,me:''};
+function ppLoad(cb){if(window.paypal)return cb();if(PAYPAL._l)return PAYPAL._l.push(cb);PAYPAL._l=[cb];const s=document.createElement('script');s.src='https://www.paypal.com/sdk/js?client-id='+PAYPAL.clientId+'&currency='+PAYPAL.currency;s.onload=()=>PAYPAL._l.forEach(f=>f());s.onerror=()=>toast('PayPal SDK failed to load');document.head.appendChild(s);}
+/* squad requests + payout */
+const REQ=[];let OUT=null;
+function reqSend(){const a=+$('req-a').value;if(!(a>0)){toast('Enter an amount');return;}['Riya','Sahil','Priya'].forEach((n,i)=>REQ.push({n,a,i:i+1,paid:0}));reqRender();toast('PayPal requests sent to the squad');}
+function reqRender(){$('req-list').innerHTML=REQ.map((r,k)=>`<div class="sub-row"><span>${r.n} · ${inr(r.a)}</span><span>${r.paid?'Paid':'Pending'}</span>${r.paid?'':`<button class="sbtn2 g" onclick="reqPaid(${k})">Mark paid (demo)</button>`}</div>`).join('');}
+function reqPaid(k){const r=REQ[k];r.paid=1;fundQuest('goa',r.a,r.i);reqRender();toast(r.n+' paid '+inr(r.a)+' via PayPal');}
+function reqCopy(){const a=+$('req-a').value||0;if(!PAYPAL.me){toast('Set your PayPal.me name in the PAYPAL config');return;}const u='https://paypal.me/'+PAYPAL.me+'/'+a+PAYPAL.currency;try{navigator.clipboard.writeText(u);toast('Link copied');}catch(e){toast(u);}}
+function demoFill(){const c=document.querySelector('.qcard[data-qid="goa"]');fundQuest('goa',Math.max(0,+c.dataset.goal-+c.dataset.saved),1);}
+function payRender(){
+  const c=document.querySelector('.qcard[data-qid="goa"]'),s=+c.dataset.saved,g=+c.dataset.goal,el=$('payout');if(!el)return;
+  el.style.background=OUT?'var(--green-bg)':'';
+  el.innerHTML=OUT?`<b>Paid out ${inr(g)} to Riya</b><div class="q-sub" style="margin-top:4px">PayPal Payouts · ${OUT}</div>`
+   :s>=g?`<b>Goal reached!</b><div class="q-sub" style="margin:4px 0 8px">Release the pool to the trip organiser (Riya).</div><button class="sbtn2 pp" onclick="payOut()">Release ${inr(g)} via PayPal Payouts</button><div class="q-sub" style="margin-top:6px;font-size:9px">Simulated here. Real payouts run server-side through the PayPal Payouts API.</div>`
+   :`<b>Payout locked</b><div class="q-sub" style="margin-top:4px">Unlocks for Riya when the pool hits ${inr(g)} (${inr(g-s)} to go). <a href="#" onclick="demoFill();return false" style="color:var(--ink3)">fill pool (demo)</a></div>`;
+}
+function payOut(){OUT='PAYOUT-'+Math.random().toString(36).slice(2,8).toUpperCase();payRender();toast('Payout sent to Riya via PayPal');addXP(300);}
+/* auto-fund subscriptions (simulated) */
+function autoToggle(b){
+  const c=b.closest('.qcard'),r=c.querySelector('.auto-row');
+  if(r){r.remove();b.textContent='Auto-fund weekly';toast('Subscription cancelled');return;}
+  const d=document.createElement('div');d.className='auto-row';d.style.marginTop='.6rem';
+  d.innerHTML='<span class="rpill rp-gold" style="margin:0">Auto ₹200/wk · PayPal subscription</span> <button class="sbtn2" onclick="autoRun(this)">Run weekly charge (demo)</button>';
+  c.appendChild(d);b.textContent='Cancel auto-fund';toast('PayPal subscription started (simulated)');
+}
+function autoRun(b){const c=b.closest('.qcard'),m=+c.dataset.auto||200;if(S.bal<m){toast('Not enough gold for the weekly charge');return;}
+  const id='SUB-'+Math.random().toString(36).slice(2,8).toUpperCase();setBal(S.bal-m);fundQuest(c.dataset.qid,m);addTx('Auto-fund · '+c.querySelector('.q-name').textContent,m,'save',id);toast('Weekly PayPal charge '+inr(m)+' · '+id);}
+/* quests */
+function fundBtn(b){const c=b.closest('.qcard');ppPay({title:'Fund: '+c.querySelector('.q-name').textContent,amt:250,done:(a,id)=>{fundQuest(c.dataset.qid,a);addTx('Quest fund · '+c.querySelector('.q-name').textContent,a,'save',id);}});}
+function fundQuest(q,a,who){
+  document.querySelectorAll('.qcard[data-qid="'+q+'"]').forEach(c=>{
+    const s=+c.dataset.saved+a,g=+c.dataset.goal,pct=Math.min(100,Math.round(s/g*100));
+    c.dataset.saved=s;c.querySelector('.q-fill').style.width=pct+'%';c.querySelector('.q-pct').textContent=pct+'%';
+    c.querySelector('.q-sub').textContent=inr(s)+' of '+inr(g)+(s>=g?' · complete!':' · '+inr(g-s)+' to go');
+  });
+  const c=document.querySelector('.qcard[data-qid="'+q+'"]');
+  if(q==='goa'){const s=+c.dataset.saved;document.querySelector('.guild-amt-row').innerHTML='<span>'+inr(s)+' pooled</span><span>of '+inr(+c.dataset.goal)+'</span>';document.querySelector('.g-fill').style.width=Math.round(s/+c.dataset.goal*100)+'%';const e=document.querySelectorAll('.ctr-amt')[who||0];if(e)e.textContent=inr(parseInt(e.textContent.replace(/\D/g,''))+a);payRender();}
+  if(!who)addXP(Math.max(10,Math.round(a/10)));
+  if(+c.dataset.saved>=+c.dataset.goal){toast('Quest complete!');addXP(+c.dataset.xp||300);}
+}
+function doPP(){ppPay({title:'Contribute to The Broke Squad',amt:500,done:(a,id)=>{fundQuest('goa',a);addTx('Guild pool · Goa trip',a,'save',id);const e=$('pp-confirm');e.style.display='block';e.textContent='Payment sent via PayPal · '+id+' · Squad XP +'+Math.round(a/10);}});}
+function openNQ(){$('nq').classList.add('on');}
+function nqT(e){document.querySelectorAll('#nq-t .chip').forEach(c=>c.classList.remove('on'));e.classList.add('on');}
+function nqMake(){
+  const n=$('nq-n').value.trim(),g=+$('nq-g').value;if(!n||!(g>0)){toast('Name and goal needed');return;}
+  const t=document.querySelector('#nq-t .on').dataset.t,id='q'+Date.now(),col={personal:['qe-v','qf-v','rp-v'],guild:['qe-green','qf-green','rp-green'],long:['qe-gold','qf-gold','rp-gold']}[t];
+  const d=document.createElement('div');d.className='qcard';d.dataset.qid=id;d.dataset.saved=0;d.dataset.goal=g;d.dataset.xp=300;
+  d.innerHTML=`<div class="q-eyebrow ${col[0]}">${t.toUpperCase()} QUEST · NEW</div><div class="q-name">${n.replace(/</g,'&lt;')}</div><div class="q-sub">₹0 of ${inr(g)} · ${inr(g)} to go</div><div class="q-prog-row"><div class="q-track"><div class="q-fill ${col[1]}" style="width:0%"></div></div><div class="q-pct">0%</div></div><span class="rpill ${col[2]}">+300 XP</span> <button class="sbtn2 pp" style="margin-left:6px" onclick="fundBtn(this)">Fund with PayPal</button> <button class="sbtn2 autob" onclick="autoToggle(this)">Auto-fund weekly</button>`;
+  const h=$('s-quests').querySelectorAll('.sec')[1];h.parentNode.insertBefore(d,h);
+  if($('nq-auto').checked)autoToggle(d.querySelector('.autob'));$('nq').classList.remove('on');$('nq-n').value='';$('nq-g').value='';toast('Quest created');addXP(25);
+}
+/* daily spin */
+const SEG=[['+50 XP','xp',50],['Dare: skip delivery','dare'],['+100 XP','xp',100],['₹50 round-up','pp'],['+25 XP','xp',25],['Dare: cook at home','dare'],['+200 XP','xp',200],['Dare: no-buy day','dare']];
+const SC=['#FFB3D6','#C9B8F0','#9FDBFF','#FFE0A3','#BDEBD6','#FFC9A8','#FFB3D6','#C9B8F0'];
+let rot=0,spinning=false;
+(function(){
+  let h='<circle cx="110" cy="110" r="106" fill="#fff" stroke="#1A1825" stroke-width="3"/>';
+  SEG.forEach((s,i)=>{
+    const a0=(i*45-22.5-90)*Math.PI/180,a1=(i*45+22.5-90)*Math.PI/180,r=100,x0=110+r*Math.cos(a0),y0=110+r*Math.sin(a0),x1=110+r*Math.cos(a1),y1=110+r*Math.sin(a1);
+    const w=s[0].split(' '),l1=w.shift(),l2=w.join(' ');
+    h+=`<path d="M110 110 L${x0} ${y0} A${r} ${r} 0 0 1 ${x1} ${y1} Z" fill="${SC[i]}" stroke="#1A1825" stroke-width="1.5"/><g transform="rotate(${i*45} 110 110)"><text x="110" y="${l2?40:46}" text-anchor="middle" font-size="9" font-weight="800" fill="#1A1825" font-family="Plus Jakarta Sans,sans-serif">${l1}</text>${l2?`<text x="110" y="51" text-anchor="middle" font-size="9" font-weight="800" fill="#1A1825" font-family="Plus Jakarta Sans,sans-serif">${l2}</text>`:''}</g>`;
+  });
+  h+='<circle cx="110" cy="110" r="10" fill="#1A1825"/>';$('wheel').innerHTML=h;
+})();
+const dayKey=()=>new Date().toDateString();
+function spinUsed(){try{return localStorage.getItem('realm.spin')===dayKey();}catch(e){return false;}}
+function spinLock(){const b=$('spin-btn');b.disabled=true;b.textContent='Come back tomorrow';}
+if(spinUsed())spinLock();
+function spin(){
+  if(spinning||spinUsed())return;spinning=true;$('spin-btn').disabled=true;$('spin-res').style.display='none';
+  const i=Math.floor(Math.random()*8);rot+=360*5+((360-i*45)%360)-(rot%360);
+  $('wheel').style.transform='rotate('+rot+'deg)';
+  setTimeout(()=>{
+    spinning=false;try{localStorage.setItem('realm.spin',dayKey());}catch(e){}spinLock();
+    const s=SEG[i],r=$('spin-res');r.style.display='block';
+    if(s[1]==='xp'){r.textContent='The wheel grants '+s[2]+' XP.';addXP(s[2]);}
+    else if(s[1]==='dare'){r.innerHTML='Oryn dares you: <b>'+s[0].replace('Dare: ','')+'</b>. <br><button class="sbtn2 g" style="margin-top:6px" onclick="this.disabled=true;addXP(60)">Accept dare (+60 XP)</button>';askOryn('dare','').then(d=>{const p=d&&d.proposals.find(x=>x.action==='dare');if(p)r.querySelector('b').textContent=p.message||p.reason;});}
+    else{r.innerHTML='Round-up! Send ₹50 to your Mic quest. <br><button class="sbtn2 pp" style="margin-top:6px" onclick="ppPay({title:\'Round-up to Mic quest\',amt:50,fixed:true,done:(a,id)=>{fundQuest(\'mic\',a);addTx(\'Round-up · Mic quest\',a,\'save\',id)}})">Pay ₹50 with PayPal</button>';}
+  },4200);
+}
+/* boss battle */
+const SUBS=[{id:'s1',n:'Streaming plan',c:649,uses:'2 sessions in 30 days'},{id:'s2',n:'Music app',c:119,uses:'used daily'},{id:'s3',n:'Delivery pass',c:149,uses:'1 order in 30 days'},{id:'s4',n:'Cloud storage',c:130,uses:'no login in 60 days'}];
+function bossRender(){
+  const alive=SUBS.filter(s=>!s.dead),n=alive.length,rage=Math.min(100,Math.round(S.boss/S.cap*100)),{dim,today}=monthInfo();
+  let h='<svg viewBox="0 0 260 120" width="260" height="120"><path d="M70 120 V80 a60 36 0 0 1 120 0 V120 Z" fill="#9B8CFF" stroke="#1A1825" stroke-width="2.5"/><g '+FA+'><path d="M105 92 l10 4 M155 92 l-10 4"/><path d="M115 108 q15 -8 30 0"/></g>';
+  alive.forEach((s,k)=>{const x=130+(k-(n-1)/2)*58;h+=`<path d="M130 70 Q${x} 50 ${x} 32" fill="none" stroke="#1A1825" stroke-width="2.5"/><circle cx="${x}" cy="26" r="15" fill="#C9B8F0" stroke="#1A1825" stroke-width="2.5"/><g ${FA}><path d="M${x-8} 22 l5 2 M${x+8} 22 l-5 2"/><path d="M${x-5} 32 q5 -3 10 0"/></g>`;});
+  $('hydra').innerHTML=h+'</svg>';
+  $('boss-bar').style.width=rage+'%';$('boss-pct').textContent=rage+'% rage';
+  $('boss-sub').textContent='Spent '+inr(S.boss)+' of your '+inr(S.cap)+' cap · survive '+(dim-today)+' more days under it to win +500 XP.'+(rage>=100?' The Hydra is winning!':'');
+  $('subs').innerHTML=alive.map(s=>`<div class="sub-row"><span>${s.n}</span><span>${inr(s.c)}/mo</span><button class="sbtn2 pp" onclick="slay('${s.n}')">Slay</button></div>`).join('')||'<div class="oryn-q">Every head is slain. Recurring bills cleared!</div>';
+}
+function slay(nm){const s=SUBS.find(x=>x.n===nm);ppPay({title:'Slay '+nm+' · send '+inr(s.c)+' to Mic quest',amt:s.c,fixed:true,done:(a,id)=>{s.dead=1;subOp(s,'cancel');fundQuest('mic',a);addTx('Hydra head slain · '+nm,a,'save',id);addXP(100);bossRender();}});}
+/* waiting room */
+const WR=[{n:'Sneakers',p:1200,t:Date.now()-30*36e5},{n:'Wireless earbuds',p:2499,t:Date.now()-49*36e5}];
+const H48=48*36e5;
+function fmt(ms){const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);return h+'h '+String(m).padStart(2,'0')+'m '+String(s).padStart(2,'0')+'s';}
+function wrRender(){
+  $('wr-list').innerHTML=WR.map((w,i)=>{const left=w.t+H48-Date.now();
+    return `<div class="wr-item"><div style="display:flex;justify-content:space-between"><b>${w.n.replace(/</g,'&lt;')}</b><b>${inr(w.p)}</b></div>`+
+    (left>0?`<div class="q-sub" style="margin:4px 0 0">Unlocks in <b data-wr="${i}">${fmt(left)}</b> <a href="#" style="color:var(--ink3);margin-left:6px" onclick="WR[${i}].t-=H48;wrRender();return false">skip wait (demo)</a></div>`
+    :`<div class="oryn-q">Two days have passed, adventurer. Do you still want this?</div><button class="sbtn2 pp" onclick="wrBuy(${i})">Still want it · buy with PayPal</button> <button class="sbtn2 g" onclick="wrLet(${i})">Let it go (+75 XP)</button>`)+`</div>`;}).join('');
+  $('wr-kept').innerHTML=S.kept?`<div class="card" style="background:var(--green-bg)"><b>You resisted ${inr(S.kept)} so far.</b><div class="q-sub" style="margin:4px 0 8px">Turn that willpower into progress.</div><button class="sbtn2 pp" onclick="ppPay({title:'Send resisted gold to Mic quest',amt:S.kept,done:(a,id)=>{fundQuest('mic',a);addTx('Willpower deposit',a,'save',id);S.kept=0;wrRender();}})">Send ${inr(S.kept)} to Mic quest via PayPal</button></div>`:'';
+}
+function wrAdd(){const n=$('wr-n').value.trim(),p=+$('wr-p').value;if(!n||!(p>0)){toast('Name and price needed');return;}WR.push({n,p,t:Date.now()});$('wr-n').value='';$('wr-p').value='';wrRender();toast('Locked for 48 hours');}
+function wrBuy(i){const w=WR[i];ppPay({title:'Buy '+w.n,amt:w.p,fixed:true,done:(a,id)=>{addTx(w.n+' · Waiting Room buy',a,'imp',id);S.boss+=a;MQ.push({item:w.n,amt:a});WR.splice(i,1);wrRender();moodRender();bossRender();}});}
+function wrLet(i){S.kept+=WR[i].p;WR.splice(i,1);addXP(75);wrRender();}
+/* mood check-in */
+const MO=[['Joyful','clover','#FFB3D6'],['Excited','circle','#FFB3D6'],['Bored','circle','#BDEBD6'],['Stressed','tri','#BDEBD6'],['Angry','square','#FF7A2F'],['Sad','ghost','#9FDBFF']];
+const ML=[{m:'Bored',a:1800},{m:'Stressed',a:900},{m:'Bored',a:600},{m:'Excited',a:450},{m:'Joyful',a:150}];
+const MQ=[{item:'Zara · Impulse buy',amt:1200},{item:'Swiggy · Dinner',amt:340}];
+function moodRender(){
+  const q=MQ[0];
+  $('mood-card').innerHTML=q?`<b style="font-size:13px">How did you feel buying ${q.item}?</b><div class="q-sub" style="margin:2px 0 .6rem">${inr(q.amt)} · tap a mood (+10 XP) · <a href="#" onclick="oryn('categorize',JSON.stringify(MQ[0]),'Mood guess');return false" style="color:var(--violet);font-weight:800">Ask Oryn to guess</a></div><div class="moods">${MO.map((m,i)=>`<div class="mood" onclick="moodPick(${i})">${blob(m[1],m[2],38)}<br>${m[0]}</div>`).join('')}</div>`:'<b>All caught up.</b><div class="q-sub">New purchases will ask how you felt.</div>';
+  const tot={};ML.forEach(x=>tot[x.m]=(tot[x.m]||0)+x.a);const ks=Object.keys(tot).sort((a,b)=>tot[b]-tot[a]),mx=tot[ks[0]];
+  $('mood-ins').innerHTML='<b style="font-size:13px">Impulse spending by mood</b>'+ks.map(k=>`<div class="mrow"><span>${k}</span><div class="bar"><i style="width:${tot[k]/mx*100}%;background:var(--violet)"></i></div><span style="width:56px;text-align:right">${inr(tot[k])}</span></div>`).join('')+`<div class="oryn-q">When you feel <b>${ks[0]}</b>, your gold leaks fastest (${inr(tot[ks[0]])}). Try a Waiting Room lock the next time that mood hits.</div>`;
+}
+function moodPick(i){const q=MQ.shift();ML.push({m:MO[i][0],a:q.amt});addXP(10);moodRender();}
+/* tick extras */
+setInterval(()=>{document.querySelectorAll('[data-wr]').forEach(e=>{const w=WR[+e.dataset.wr],l=w.t+H48-Date.now();if(l<=0)wrRender();else e.textContent=fmt(l);});},1000);
+bossRender();wrRender();moodRender();updXP();payRender();$('hub-mode').textContent=PAYPAL.clientId?'Sandbox · live':'Sandbox · simulated';
+
+const hist=[{role:'assistant',content:'Greetings, Aryan. I am Oryn. Your Discipline is recovering — 2 days clean of impulse spending. Your Mic quest stands at 67%. Do not falter now. What would you know?'}];
+async function send(){
+  const inp=document.getElementById('cinput');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';addMsg('user',txt);hist.push({role:'user',content:txt});showTyping();
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-10),ctx:ctx()})});
+    const d=await r.json();hideTyping();
+    const reply=d.text||d.error||'The realm is silent...';
+    addMsg('assistant',reply);hist.push({role:'assistant',content:reply});
+  }catch(e){hideTyping();addMsg('assistant','The arcane connection wavers... try again.');}
+}
+function sq(t){document.getElementById('cinput').value=t;send();}
+function hk(e){if(e.key==='Enter')send();}
+function addMsg(role,text){
+  const wrap=document.getElementById('chat-msgs');const isU=role==='user';
+  const d=document.createElement('div');d.className='msg'+(isU?' u':'');
+  d.innerHTML=`<div class="mav2 ${isU?'mav-user':'mav-oryn'}">${isU?'A':'O'}</div><div><div class="bubble">${esc(text)}</div><div class="mtime">just now</div></div>`;
+  wrap.appendChild(d);wrap.scrollTop=wrap.scrollHeight;
+}
+function showTyping(){
+  const wrap=document.getElementById('chat-msgs');const d=document.createElement('div');
+  d.className='msg';d.id='typing';
+  d.innerHTML='<div class="mav2 mav-oryn">O</div><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  wrap.appendChild(d);wrap.scrollTop=wrap.scrollHeight;
+}
+function hideTyping(){const e=document.getElementById('typing');if(e)e.remove();}
+
+/* ===== Oryn agent (server-backed) ===== */
+const TXL=[{name:'Swiggy · Dinner',amt:340,kind:'spent'},{name:'Freelance received',amt:1500,kind:'in'},{name:'Quest save · Mic Fund',amt:200,kind:'save'},{name:'Zara · Impulse buy',amt:1200,kind:'imp'}];
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function ctx(){const m=monthInfo();return {bal:S.bal,hydra:{spent:S.boss,cap:S.cap},daysLeftInMonth:m.dim-m.today,quests:[...document.querySelectorAll('#s-quests .qcard[data-qid]')].map(c=>({id:c.dataset.qid,name:c.querySelector('.q-name').textContent,saved:+c.dataset.saved,goal:+c.dataset.goal,weeklyAutoFund:+c.dataset.auto||0})),tx:TXL.slice(0,15),subs:SUBS.filter(s=>!s.dead).map(s=>({id:s.id,name:s.n,monthlyCost:s.c,usage:s.uses})),moods:ML,waitingRoom:WR.map(w=>({name:w.n,price:w.p}))};}
+async function askOryn(task,text){try{const r=await fetch('/api/agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task,text,ctx:ctx()})});const d=await r.json();if(d.error)throw new Error(d.error);return d;}catch(e){toast('Oryn offline · '+(e.message||'start the server').slice(0,50));return null;}}
+const AUD=[];function aud(m){AUD.unshift(new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+' · '+m);if($('audit'))$('audit').innerHTML=AUD.slice(0,8).map(x=>'<div>'+esc(x)+'</div>').join('');}
+let PROPS=[];
+function ocRender(){$('oc-props').innerHTML=PROPS.map((p,i)=>`<div class="wr-item"><b>${esc(p.action.replace('_',' '))}${p.target?' · '+esc(p.target):''}${p.amount?' · '+inr(p.amount):''}</b><div class="q-sub" style="margin:4px 0 6px">${esc(p.reason||'')}${p.message?'<br><i>'+esc(p.message)+'</i>':''}</div>${p.done?'<span class="rpill rp-green" style="margin:0">Approved</span>':`<button class="sbtn2 g" onclick="ocApprove(${i})">Approve</button> <button class="sbtn2" onclick="PROPS.splice(${i},1);ocRender()">Skip</button>`}</div>`).join('');}
+async function oryn(task,text,title){
+  $('oc-title').textContent=title;$('oc-trace').innerHTML='';$('oc-text').textContent='Oryn is thinking…';PROPS=[];ocRender();$('oc').classList.add('on');
+  const d=await askOryn(task,text);if(!d){$('oc').classList.remove('on');return;}
+  $('oc-trace').innerHTML='<div class="q-sub"><b>Tools Oryn used</b></div>'+d.trace.map(t=>`<div class="sub-row"><span>${esc(t.tool)}</span><span style="color:var(--ink3);font-size:10px">${esc(JSON.stringify(t.input)).slice(0,50)}</span></div>`).join('');
+  $('oc-text').textContent=d.text||'Here is what I propose.';PROPS=d.proposals;ocRender();
+}
+function subOp(s,op){return fetch('/api/subs/'+s.id+'/'+op,{method:'POST'}).then(r=>r.json()).catch(()=>({ok:false}));}
+function findSub(t){t=(t||'').toLowerCase();return SUBS.find(s=>!s.dead&&(s.id===t||s.n.toLowerCase().includes(t)||t.includes(s.n.toLowerCase().split(' ')[0])));}
+function autoSet(q,amt){const c=document.querySelector('#s-quests .qcard[data-qid="'+q+'"]');if(!c)return;if(!c.querySelector('.auto-row'))autoToggle(c.querySelector('.autob'));c.dataset.auto=amt;c.querySelector('.auto-row .rpill').textContent='Auto '+inr(amt)+'/wk · PayPal subscription';toast('Auto-fund set to '+inr(amt)+'/week');}
+function ocApprove(i){
+  const p=PROPS[i];if(!p||p.done)return;p.done=1;aud('Approved '+p.action.replace('_',' ')+(p.target?' · '+p.target:'')+(p.amount?' · '+inr(p.amount):'')+' — '+(p.reason||'').slice(0,60));const a=p.action,amt=+p.amount||0;
+  if(a==='cancel_sub'||a==='pause_sub'){const s=findSub(p.target);if(!s){toast('Subscription not found');return;}
+    subOp(s,a==='cancel_sub'?'cancel':'pause').then(r=>{s.dead=1;bossRender();toast((a==='cancel_sub'?'Cancelled ':'Paused ')+s.n+(r.live?' on PayPal':' (simulated)'));
+      ppPay({title:'Redirect '+inr(s.c)+' to Mic quest',amt:s.c,fixed:true,noGuard:true,done:(x,id)=>{fundQuest('mic',x);addTx('Oryn redirect · '+s.n,x,'save',id);addXP(100);}});});}
+  else if(a==='set_autofund')autoSet(p.target||'mic',amt||200);
+  else if(a==='fund_quest'){const q=p.target||'mic';ppPay({title:'Oryn: fund '+q+' quest',amt:amt||250,noGuard:true,done:(x,id)=>{fundQuest(q,x);addTx('Oryn funded '+q,x,'save',id);}});}
+  else if(a==='park_purchase'){WR.push({n:p.target||'Parked item',p:amt,t:Date.now()});wrRender();toast('Parked in the Waiting Room');}
+  else if(a==='request_squad'){REQ.push({n:p.target,a:amt,i:['Riya','Sahil','Priya'].indexOf(p.target)+1,paid:0,msg:p.message});reqRender();toast('PayPal request drafted for '+p.target);}
+  else if(a==='label_mood'){const k=MO.findIndex(m=>m[0].toLowerCase()===(p.target||'').toLowerCase());if(k>=0&&MQ.length)moodPick(k);}
+  else toast(p.message||p.reason);
+  ocRender();
+}
+/* pre-purchase guardian */
+function ppPay(o){ppPay0(o);const g=$('pp-guard');g.style.display='none';if(!o.guard)return;g.style.display='block';g.textContent='Oryn is weighing this purchase…';
+  askOryn('guard',JSON.stringify({item:o.title,amount:o.amt})).then(d=>{if(!d){g.style.display='none';return;}g.innerHTML=esc(d.text)+'<br><button class="sbtn2 g" style="margin-top:6px" onclick="parkPP()">Park it in the Waiting Room</button>';});}
+function parkPP(){ppClose();WR.push({n:PP.title.replace('Buy: ',''),p:+$('pp-amt').value,t:Date.now()});wrRender();toast('Parked in the Waiting Room');}
+function tryBuy(){ppPay({title:'Buy: Sneakers',amt:1200,guard:true,done:(a,id)=>{addTx('Sneakers · PayPal purchase',a,'imp',id);S.boss+=a;MQ.push({item:'Sneakers',amt:a});bossRender();moodRender();}});}
+/* reward shop: coins = half of XP earned */
+let av=0;
+function cashOut(){fetch('/api/rewards/cashout',{method:'POST'}).then(r=>r.json()).then(r=>{if(!r.ok){S.coins+=400;shopRender();toast(r.error||'Cash-out failed, coins refunded');return;}setBal(S.bal+40);addTx('XP cash-out · PayPal payout'+(r.live?'':' (simulated)'),40,'in',r.id);aud('XP cash-out ₹40 '+(r.live?'via PayPal Payouts sandbox':'(simulated)'));}).catch(()=>{S.coins+=400;shopRender();toast('Cash-out failed, coins refunded');});}
+const SHOP=[['Cash reward ₹40','Real PayPal Payout to your account (sandbox; capped, funded by Realm)',400,cashOut],['Give ₹50 to a cause','Realm donates ₹50 on your behalf (simulated; real version = PayPal Giving Fund)',200,()=>{addTx('Donation · from XP',50,'save','GIVE-'+Math.random().toString(36).slice(2,6).toUpperCase());aud('XP donation ₹50 (simulated)');}],['Quest match','Realm adds ₹50 to your Mic quest (sponsor match, simulated)',150,()=>fundQuest('mic',50,9)],['Rage cooldown','Cut ₹300 of Hydra rage',100,()=>{S.boss=Math.max(0,S.boss-300);bossRender();}],['New avatar face','Swap your profile blob',60,()=>{av=(av+1)%LB.length;document.querySelector('.pf-av').innerHTML=blob(LB[av][0],LB[av][1],56);}]];
+function shopRender(){if(!$('shop'))return;$('coins').textContent=S.coins;$('shop').innerHTML=SHOP.map((s,i)=>`<div class="sub-row"><span><b>${s[0]}</b><br><span style="font-weight:600;color:var(--ink2);font-size:10px">${s[1]}</span></span><button class="sbtn2 ${S.coins>=s[2]?'v':''}" onclick="shopBuy(${i})">${s[2]} coins</button></div>`).join('')+'<div class="sub-row" style="opacity:.5"><span><b>Partner gift cards</b><br><span style="font-size:10px">Needs a funding partner. Not live.</span></span><span>Soon</span></div>';}
+function shopBuy(i){const s=SHOP[i];if(S.coins<s[2]){toast('Not enough coins');return;}S.coins-=s[2];s[3]();aud('Shop: '+s[0]);shopRender();toast(s[0]+' unlocked');}
+shopRender();
+fetch('/api/config').then(r=>r.json()).then(c=>{PAYPAL.clientId=c.clientId||'';PAYPAL.currency=c.currency||'USD';$('hub-mode').textContent=c.live?'Sandbox · live':'Sandbox · simulated';$('ai-mode').textContent=c.ai?'Claude · live':'AI key missing';}).catch(()=>{$('ai-mode').textContent='Start server';});
+fetch('/api/subs').then(r=>r.json()).then(a=>{SUBS.length=0;SUBS.push(...a);bossRender();}).catch(()=>{});
+</script>
 </body>
 </html>
