@@ -67,13 +67,13 @@ Realm deep-links into the official **PayPal Developer REST API (Sandbox)** acros
 
 ### Dual-Engine AI Architecture: Oryn
 Realm features **Oryn**, an ancient RPG-style financial mentor that speaks like a cryptic elder yet computes with mathematical precision. Oryn supports two enterprise AI backends with seamless fallback:
-- **Google Gemini API (`gemini-2.5-flash` / `gemini-1.5-flash`)**: High-speed function calling and multimodal comprehension via Google Generative Language REST endpoints.
-- **Anthropic Claude SDK (`claude-sonnet-4-6` / `claude-sonnet-5-5`)**: Tool use loops, message streaming (SSE), and grounded structured outputs.
-- **Replay Mode**: When offline or in test environments without API keys, Oryn falls back to a deterministic, labelled replay engine with zero crashes.
+- **Google Gemini API (`gemini-2.5-flash` / `gemini-2.0-flash`)**: High-speed function calling and multimodal comprehension via Google Generative Language REST endpoints.
+- **Anthropic Claude SDK (`claude-3-5-sonnet-latest` / `claude-sonnet-4-6`)**: Tool use loops, message streaming (SSE), and grounded structured outputs.
+- **Replay Mode**: When offline or in test environments without API keys, Oryn falls back to a deterministic, context-aware labelled replay engine with zero crashes.
 
 ### Safety Model: Zero-Trust "Propose-Only" Mandates
 Autonomous agents must **never** move real money without human authorization. Realm implements a three-tier safety boundary:
-1. **The AI can only propose**: Oryn's function calling schema gives the AI `propose_action`, `read_subscriptions`, `read_ledger`, `read_quests`, and `read_mood_log`. It has **no API access to move funds**.
+1. **The AI can only propose**: Oryn's function calling schema gives the AI `propose_cancellation`, `list_subscriptions`, `get_ledger`, `get_quests`, and `get_mandates`. It has **no API access to move funds**.
 2. **Server-Side Mandates**: Even when a human clicks "Approve", the request is passed through the `src/agent/mandates.js` policy validator:
    - `perActionLimitUsd`: Maximum permitted expenditure per single action.
    - `dailyLimitUsd`: Hard daily expenditure ceiling.
@@ -142,7 +142,7 @@ Autonomous agents must **never** move real money without human authorization. Re
    ```ini
    PORT=3000
    PAYPAL_CLIENT_ID=your_paypal_sandbox_client_id
-   PAYPAL_SECRET=your_paypal_sandbox_secret
+   PAYPAL_CLIENT_SECRET=your_paypal_sandbox_secret
    GEMINI_API_KEY=your_gemini_api_key
    ```
 
@@ -160,13 +160,12 @@ Autonomous agents must **never** move real money without human authorization. Re
 | :--- | :--- | :--- |
 | `PORT` | Local server listening port | `3000` |
 | `PAYPAL_CLIENT_ID` | PayPal Sandbox REST App Client ID | `""` (runs simulated) |
-| `PAYPAL_SECRET` | PayPal Sandbox REST App Secret | `""` (runs simulated) |
-| `PAYPAL_CURRENCY` | Base transaction currency | `USD` |
+| `PAYPAL_CLIENT_SECRET` | PayPal Sandbox REST App Secret | `""` (runs simulated) |
 | `PAYPAL_WEBHOOK_ID` | Registered PayPal Webhook ID for verification | `""` |
 | `GEMINI_API_KEY` | Google Gemini API Key | `""` (falls back to replay) |
 | `GEMINI_MODEL` | Gemini Model identifier | `gemini-2.5-flash` |
 | `ANTHROPIC_API_KEY` | Anthropic API Key (alternative engine) | `""` |
-| `REWARD_PAYEE_EMAIL` | PayPal email address for XP cash-out payouts | `""` |
+| `PAYOUT_RECIPIENT_EMAIL` | PayPal email address for squad & XP cash-out payouts | `""` |
 
 ---
 
@@ -188,6 +187,8 @@ To verify the live server against all contracts and UI modules:
 ```bash
 node scripts/smoke.js http://localhost:3000
 ```
+
+See [`docs/TESTING.md`](docs/TESTING.md) for the step-by-step judge walkthrough.
 
 ---
 

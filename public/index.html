@@ -1132,7 +1132,7 @@ const SHOP=[['Cash reward ₹40','Real PayPal Payout to your account (sandbox; c
 function shopRender(){if(!$('shop'))return;$('coins').textContent=S.coins;$('shop').innerHTML=SHOP.map((s,i)=>`<div class="sub-row"><span><b>${s[0]}</b><br><span style="font-weight:600;color:var(--ink2);font-size:10px">${s[1]}</span></span><button class="sbtn2 ${S.coins>=s[2]?'v':''}" onclick="shopBuy(${i})">${s[2]} coins</button></div>`).join('')+'<div class="sub-row" style="opacity:.5"><span><b>Partner gift cards</b><br><span style="font-size:10px">Needs a funding partner. Not live.</span></span><span>Soon</span></div>';}
 function shopBuy(i){const s=SHOP[i];if(S.coins<s[2]){toast('Not enough coins');return;}S.coins-=s[2];s[3]();aud('Shop: '+s[0]);shopRender();toast(s[0]+' unlocked');}
 shopRender();
-fetch('/api/config').then(r=>r.json()).then(c=>{PAYPAL.clientId=c.clientId||'';PAYPAL.currency=c.currency||'USD';$('hub-mode').textContent=c.live?'Sandbox · live':'Sandbox · simulated';$('ai-mode').textContent=c.ai?'Claude · live':'AI key missing';}).catch(()=>{$('ai-mode').textContent='Start server';});
+fetch('/api/config').then(r=>r.json()).then(c=>{PAYPAL.clientId=c.clientId||'';PAYPAL.currency=c.currency||'USD';$('hub-mode').textContent=c.live?'Sandbox · live':'Sandbox · simulated';$('ai-mode').textContent=c.ai?'AI · Live':'Oryn · Replay';}).catch(()=>{$('ai-mode').textContent='Start server';});
 fetch('/api/subs').then(r=>r.json()).then(a=>{SUBS.length=0;SUBS.push(...a);bossRender();}).catch(()=>{});
 </script>
 </body>
